@@ -2,21 +2,44 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+''''
+Comment ça fonctionne ?
+ - on calcule en premier lieu les consommations estimées (connu)
+ - on lance la simulation : il y a un champ d'année courante, et on calcule au fur et à mesure les stocks de l'année suivante
+''''
+
 
 '''
 LISTES
+Enregistrent toutes les données, année après années.
+Système d'accès aux listes : l'indice dans la liste correspond à annee courante - annee de départ
+Listes (TODO à compléter):
+- consommations suit l'évolution de la consommation. Calculée avant
+- stock suit l'état du stock. Calculé au fur et à mesure
+
+
 '''
 consommations = []
+stock = []
 
 
 '''
 CONSTANTES
 '''
+ANNEE_DEBUT = 2018
+STOCK_DEBUT = 50
+ANNEE_FIN = 2050
+
+
 POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO = 1.75
 POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO = 1.09
 POURCENTAGE_NEW_WASTE_RAPP_CONSO = 16.4
 
-
+'''
+CHAMPS
+- annee_actuelle indique que l'on se trouve au 1er janvier de l'année spécifiée.
+'''
+annee_actuelle = ANNEE_DEBUT
 
 '''
 Initialise la liste des consommations annuelles
@@ -27,6 +50,7 @@ def initListeConso():
     pass
 
 
+# Les fonctions principales
 
 
 '''
@@ -45,7 +69,38 @@ Accède a la liste initialisée au départ
 TODO
 '''
 def getConsommation(annee):
-    pass
+    return consommations[annee - ANNEE_DEBUT]
+
+
+'''
+Calcule l'année suivante, donc ajoute à chaque liste concernée un élément de plus
+Concrètement, on calcule les données de année année_actuelle+1 à l'aide des données de année_actuelle
+'''
+def doAnneeSuivante():
+    stock.append(calculerStockAnneeSuivante())
+    #TODO à compléter avec les autres listes à mettre à jour aussi
+
+
+    annee_actuelle+=1
+
+
+'''
+Donne le stock présent sur le territoire au 1/1/N+1. Ne modifie pas la liste.
+Concrètement :
+- récupère le stock au 1/1/N
+- ajoute la consommation pendant l'année N
+- enlève ce qui est parti du stock pendant l'année N
+'''
+def calculerStockAnneeSuivante():
+    stock_prec = getStock(annee_actuelle)
+    stock_prec+=getConsommation(annee_actuelle)
+    stock_prec-=getSortieStock(annee_actuelle)
+
+    return stock_prec
+
+
+# Les fonctions secondaires
+
 
 '''
 Donne ce qui est perdu définitivement lors de la production (raffinement + semi-finished goods)
@@ -72,12 +127,7 @@ def getRecyclagePrimaire(annee):
     return POURCENTAGE_NEW_WASTE_RAPP_CONSO*getConsommation(annee)
 
 
-'''
-Donne le stock présent sur le territoire
-TODO
-'''
-def getStock(annee):
-    pass
+
 
 
 '''
