@@ -21,17 +21,28 @@ ANNEE_DEBUT = 2018
 ANNEE_FIN = 2050
 ANNEES = ANNEE_FIN - ANNEE_DEBUT
 
-NB_DONNEES = 10
-LIGNE_CONSO = 0
-LIGNE_STOCK = 1
-LIGNE_PERDU_PROD_RAFF = 2
-LIGNE_PERDU_PROD_SEMI_FINISHED = 3
-LIGNE_RECYCLAGE_PRIMAIRE = 4
+NB_DONNEES = 11
+LIGNE_CONSO_VEHICULES = 0
+LIGNE_CONSO_BAT = 1
+LIGNE_CONSO_EQUIP_ELEC = 2
+LIGNE_CONSO_APP_ELEC = 3
+LIGNE_PERDU_PROD_RAFF = 4
+LIGNE_PERDU_PROD_SEMI_FINISHED = 5
+LIGNE_RECYCLAGE_PRIMAIRE = 6
+LIGNE_STOCK_VEHICULES = 7
+LIGNE_STOCK_BAT = 8
+LIGNE_STOCK_EQUIP_ELEC = 9
+LIGNE_STOCK_APP_ELEC = 10
 
 
 POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO = 1.75
 POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO = 1.09
 POURCENTAGE_NEW_WASTE_RAPP_CONSO = 16.4
+
+TEMPS_VEHICULES = 5
+TEMPS_BAT = 50
+TEMPS_EQUIP_ELEC = 10
+TEMPS_APP_ELEC = 3
 
 annee_actuelle = ANNEE_DEBUT
 
@@ -43,7 +54,7 @@ Système d'accès au tableau :
 - la colonne correspond à la donnée intéressante suivant le code des constantes
 
 '''
-resultats = np.empty( (NB_DONNEES, ANNEES) )
+resultats = np.zeroes( (NB_DONNEES, ANNEES) )
 
 
 # Programme principal
@@ -75,7 +86,18 @@ def initialiser():
     resultats[LIGNE_RECYCLAGE_PRIMAIRE] = resultats[LIGNE_CONSO]*POURCENTAGE_NEW_WASTE_RAPP_CONSO
 
 
+
+
+
+
+
+
 # Les fonctions qui construisent l'année suivante
+
+
+
+
+
 
 '''
 Calcule l'année suivante, donc ajoute à chaque ligne concernée un élément de plus
@@ -85,8 +107,10 @@ Modifie le tableau !
 '''
 def doAnneeSuivante():
     global annee_actuelle
-    resultats[LIGNE_STOCK, annee_actuelle - ANNEE_DEBUT] = calculerStockAnneeSuivante()
+    global resultats
     #TODO à compléter avec les autres listes à mettre à jour aussi
+    colonne_stock = calculerStockAnneeSuivante()
+    resultats[0:NB_DONNEES, annee_actuelle - ANNEE_DEBUT]+=colonne_stock
 
     annee_actuelle+=1
 
@@ -98,12 +122,27 @@ Concrètement :
 - ajoute la consommation pendant l'année N
 - enlève ce qui est parti du stock pendant l'année N
 
+Retourne une colonne avec des données situées aux lignes des stocks et des 0 autre part (comme ça il suffit de le sommer)
+
 TODO pour dispatcher selon quel type d'objet est dans le stock
 '''
 def calculerStockAnneeSuivante():
-    stock_prec = getStock(annee_actuelle)
-    stock_prec+=getConsommation(annee_actuelle)
-    stock_prec-=getSortieStock(annee_actuelle)
+    stock_prec = np.zeros( (NB_DONNEES) )
+
+    stock_prec[LIGNE_STOCK_VEHICULES] = getStockVehicules(annee_actuelle)
+    stock_prec[LIGNE_STOCK_BAT] = getStockBat(annee_actuelle)
+    stock_prec[LIGNE_STOCK_EQUIP_ELEC] = getStockEquipElec(annee_actuelle)
+    stock_prec[LIGNE_STOCK_APP_ELEC] = getStockAppElec(annee_actuelle)
+
+    stock_prec[LIGNE_STOCK_VEHICULES]+=getConsoVehicules(annee_actuelle)
+    stock_prec[LIGNE_STOCK_BAT]+=getConsoBat(annee_actuelle)
+    stock_prec[LIGNE_STOCK_EQUIP_ELEC]+=getConsoEquipElec(annee_actuelle)
+    stock_prec[LIGNE_STOCK_APP_ELEC]+=getConsoAppElec(annee_actuelle)
+
+    stock_prec[LIGNE_STOCK_VEHICULES]-= getSortieStockVehicules(annee_actuelle)
+    stock_prec[LIGNE_STOCK_BAT]-= getSortieStockBat(annee_actuelle)
+    stock_prec[LIGNE_STOCK_EQUIP_ELEC]-= getSortieStockEquipElec(annee_actuelle)
+    stock_prec[LIGNE_STOCK_APP_ELEC]-= getSortieStockAppElec(annee_actuelle)
 
     return stock_prec
 
@@ -116,6 +155,11 @@ Donne tout ce qui entre en production par le recyclage (new-waste et old-waste)
 def getRecyclageTotal(annee):
     return getRecyclagePrimaire(annee) + getRecyclageSecondaire(annee)
 
+
+
+
+
+
 ## Accesseurs partie production (tout est initialisé avant, on peut y accéder sans pb)
 
 '''
@@ -126,11 +170,24 @@ Donne le besoin du pays pour l'année, en intégrant à la fois
 Ca correspond à ce qui rentre dans le processus de production
 '''
 def getBesoin(annee):
-    return getConsommation(annee) + getPerduProductionTotal(annee) + getRecyclagePrimaire(annee)
+    return getConsoTotale(annee) + getPerduProductionTotal(annee) + getRecyclagePrimaire(annee)
 
 
-def getConsommation(annee):
-    return resultats[LIGNE_CONSO, annee - ANNEE_DEBUT]
+def getConsoTotale(annee):
+    return getConsoVehicules(annee) + getConsoBat(annee) + getConsoEquipElec(annee) + getConsoAppElec(annee)
+
+
+def getConsoVehicules(annee):
+    return resultats[LIGNE_CONSO_VEHICULES, annee_actuelle - ANNEE_DEBUT]
+
+def getConsoBat(annee):
+    return resultats[LIGNE_CONSO_BAT, annee_actuelle - ANNEE_DEBUT]
+
+def getConsoEquipElec(annee):
+    return resultats[LIGNE_CONSO_EQUIP_ELEC, annee_actuelle - ANNEE_DEBUT]
+
+def getConsoAppElec(annee):
+    return resultats[LIGNE_CONSO_APP_ELEC, annee_actuelle - ANNEE_DEBUT]
 
 '''
 Donne ce qui est perdu définitivement lors de la production (raffinement + semi-finished goods)
@@ -158,23 +215,54 @@ def getRecyclagePrimaire(annee):
 
 
 
-## Accesseurs partie stock
+
+
+
+## Accesseurs partie stock (il faut prendre garde à avoir déjà calculé la valeur correspondante !)
 
 def getStock(annee):
-    return resultats[LIGNE_STOCK, annee - ANNEE_DEBUT]
+    return getStockVehicules(annee) + getStockBat(annee) + getStockEquipElec(annee) + getStockAppElec(annee)
+
+
+def getStockVehicules(annee):
+    return resultats[LIGNE_STOCK_VEHICULES, annee_actuelle - ANNEE_DEBUT]
+
+def getStockBat(annee):
+    return resultats[LIGNE_STOCK_BAT, annee_actuelle - ANNEE_DEBUT]
+
+def getStockEquipElec(annee):
+    return resultats[LIGNE_STOCK_EQUIP_ELEC, annee_actuelle - ANNEE_DEBUT]
+
+def getStockAppElec(annee):
+    return resultats[LIGNE_STOCK_APP_ELEC, annee_actuelle - ANNEE_DEBUT]
 
 
 
 
-## Accesseurs partie après le stock (à TODO)
+## Accesseurs partie après le stock (à TODO) :
 
 '''
 Donne ce qui sort des stocks:
-- ce qui va être recyclé (fin de vie, old-waste)
+- ce qui va être recyclé (fin de vie, old-waste), somme de toutes les catégories
 - ce qui va être perdu définitivement (abandonné, non-recyclé et perdu lors du recyclage)
 '''
 def getSortieStock(annee):
-    pass
+    return getSortieStockVehicules(annee) + getSortieStockBat(annee) + getSortieStockEquipElec(annee) + getSortieStockAppElec(annee)
+
+
+def getSortieStockVehicules(annee):
+    return resultats[LIGNE_CONSO_VEHICULES, annee - TEMPS_VEHICULES]
+
+def getSortieStockBat(annee):
+    return resultats[LIGNE_CONSO_BAT, annee - TEMPS_BAT]
+
+def getSortieStockEquipElec(annee):
+    return resultats[LIGNE_CONSO_EQUIP_ELEC, annee - TEMPS_EQUIP_ELEC]
+
+def getSortieStockAppElec(annee):
+    return resultats[LIGNE_CONSO_APP_ELEC, annee - TEMPS_APP_ELEC]
+
+
 
 
 '''
