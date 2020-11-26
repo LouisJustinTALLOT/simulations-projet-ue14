@@ -20,6 +20,7 @@ ANNEE_DEBUT = 2018
 ANNEE_FIN = 2050
 ANNEES = ANNEE_FIN - ANNEE_DEBUT
 
+RANGE_ANNEES = np.array([a for a in range(ANNEE_DEBUT, ANNEE_FIN+1)])
 
 NB_DONNEES = 11
 
@@ -58,6 +59,17 @@ Système d'accès au tableau :
 
 resultats = np.zeros( (NB_DONNEES, ANNEES) )
 
+# Traçage des résultats :
+
+def tracer_resultats(tableau):
+    """Trace un tableau numpy correspondant aux résultats de la simulation"""
+    plt.close()
+
+    for no_donnee in range(NB_DONNEES):
+        plt.plot(tableau[no_donnee,:],RANGE_ANNEES)
+        plt.figure()
+
+    plt.show()
 
 ## Accesseurs partie production (tout est initialisé avant, on peut y accéder sans pb)
 
@@ -249,3 +261,4 @@ def simul():
     while annee_actuelle < ANNEE_FIN:
         doAnneeSuivante()
     #TODO
+    tracer_resultats(resultats)
