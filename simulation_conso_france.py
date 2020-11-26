@@ -211,7 +211,6 @@ def getRecyclagePrimaire(annee):
 
 
 
-getConsoTotale(2012)
 
 ## Accesseurs partie stock (il faut prendre garde à avoir déjà calculé la valeur correspondante !)
 
