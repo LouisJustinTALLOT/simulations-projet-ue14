@@ -178,24 +178,20 @@ def getBesoin(annee):
 
 
 def getConsoTotale(annee):
-    print( getConsoVehicules(annee) + getConsoBat(annee) + getConsoEquipElec(annee) + getConsoAppElec(annee) )
+    return getConsoVehicules(annee) + getConsoBat(annee) + getConsoEquipElec(annee) + getConsoAppElec(annee)
 
 
 def getConsoVehicules(annee):
-    # return resultats[LIGNE_CONSO_VEHICULES, annee_actuelle - ANNEE_DEBUT]
-    return("getConsoVehicules ")
+    return resultats[LIGNE_CONSO_VEHICULES, annee_actuelle - ANNEE_DEBUT]
 
 def getConsoBat(annee):
-    # return resultats[LIGNE_CONSO_BAT, annee_actuelle - ANNEE_DEBUT]
-    return("getConsoBat ")
+    return resultats[LIGNE_CONSO_BAT, annee_actuelle - ANNEE_DEBUT]
 
 def getConsoEquipElec(annee):
-    # return resultats[LIGNE_CONSO_EQUIP_ELEC, annee_actuelle - ANNEE_DEBUT]
-    return("getConsoEquipElec ")
+    return resultats[LIGNE_CONSO_EQUIP_ELEC, annee_actuelle - ANNEE_DEBUT]
 
 def getConsoAppElec(annee):
-    # return resultats[LIGNE_CONSO_APP_ELEC, annee_actuelle - ANNEE_DEBUT]
-    return ("getConsoAppElec ")
+    return resultats[LIGNE_CONSO_APP_ELEC, annee_actuelle - ANNEE_DEBUT]
 
 def getPerduProductionTotal(annee):
     '''Donne ce qui est perdu définitivement lors de la production (raffinement + semi-finished goods)'''
