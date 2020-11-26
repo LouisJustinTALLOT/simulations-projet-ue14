@@ -194,19 +194,19 @@ def getConsoAppElec(annee):
     return resultats[LIGNE_CONSO_APP_ELEC, annee_actuelle - ANNEE_DEBUT]
 
 def getPerduProductionTotal(annee):
-'''Donne ce qui est perdu définitivement lors de la production (raffinement + semi-finished goods)'''
+    '''Donne ce qui est perdu définitivement lors de la production (raffinement + semi-finished goods)'''
     return getPerduProductionRaffinement(annee) + getPerduProductionSemiFinished(annee)
 
 def getPerduProductionRaffinement(annee):
-'''Donne ce qui est perdu définitivement lors de la partie raffinement de la production'''
+    '''Donne ce qui est perdu définitivement lors de la partie raffinement de la production'''
     return resultats[LIGNE_PERDU_PROD_RAFF, annee_actuelle - ANNEE_DEBUT]
 
 def getPerduProductionSemiFinished(annee):
-'''Donne ce qui est perdu définitivement lors de la production des semi-finished goods'''
+    '''Donne ce qui est perdu définitivement lors de la production des semi-finished goods'''
     return resultats[LIGNE_PERDU_PROD_SEMI_FINISHED, annee_actuelle - ANNEE_DEBUT]
 
 def getRecyclagePrimaire(annee):
-'''Donne ce qui part en recyclage primaire (new waste)'''
+    '''Donne ce qui part en recyclage primaire (new waste)'''
     return resultats[LIGNE_RECYCLAGE_PRIMAIRE, annee_actuelle - ANNEE_DEBUT]
 
 
