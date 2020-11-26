@@ -54,7 +54,7 @@ Système d'accès au tableau :
 - la colonne correspond à la donnée intéressante suivant le code des constantes
 
 '''
-resultats = np.zeroes( (NB_DONNEES, ANNEES) )
+resultats = np.zeros( (NB_DONNEES, ANNEES) )
 
 
 # Programme principal
