@@ -2,56 +2,121 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-''''
+'''
 Comment ça fonctionne ?
  - on calcule en premier lieu les consommations estimées (connu)
- - on lance la simulation : il y a un champ d'année courante, et on calcule au fur et à mesure les stocks de l'année suivante
-''''
-
-
+ - on lance la simulation :
+   - il y a un champ d'année courante
+   - on calcule au fur et à mesure les stocks (et autres variables) de l'année suivante, à l'aide notamment des données de l'année précédente
+   - on ajoute au tableau les nouvelles données
+   - on recommence
+ - on plot les résultats joliment
 '''
-LISTES
-Enregistrent toutes les données, année après années.
-Système d'accès aux listes : l'indice dans la liste correspond à annee courante - annee de départ
-Listes (TODO à compléter):
-- consommations suit l'évolution de la consommation. Calculée avant
-- stock suit l'état du stock. Calculé au fur et à mesure
-
-
-'''
-consommations = []
-stock = []
 
 
 '''
 CONSTANTES
 '''
 ANNEE_DEBUT = 2018
-STOCK_DEBUT = 50
 ANNEE_FIN = 2050
+ANNEES = ANNEE_FIN - ANNEE_DEBUT
+
+NB_DONNEES = 10
+LIGNE_CONSO = 0
+LIGNE_STOCK = 1
+LIGNE_PERDU_PROD_RAFF = 2
+LIGNE_PERDU_PROD_SEMI_FINISHED = 3
+LIGNE_RECYCLAGE_PRIMAIRE = 4
 
 
 POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO = 1.75
 POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO = 1.09
 POURCENTAGE_NEW_WASTE_RAPP_CONSO = 16.4
 
-'''
-CHAMPS
-- annee_actuelle indique que l'on se trouve au 1er janvier de l'année spécifiée.
-'''
 annee_actuelle = ANNEE_DEBUT
 
 '''
-Initialise la liste des consommations annuelles
+TABLEAU
+Enregistre toutes les données, année après années.
+Système d'accès au tableau :
+- l'indice de colonne correspond à année courante - année de départ
+- la colonne correspond à la donnée intéressante suivant le code des constantes
+
+'''
+resultats = np.empty( (NB_DONNEES, ANNEES) )
+
+
+# Programme principal
+'''
+Fait tout
+'''
+def simul():
+    initialiser()
+    while annee_actuelle < ANNEE_FIN:
+        doAnneeSuivante()
+    #TODO
+
+
+# Les fonctions avant de lancer la simulation
+
+'''
+Initialise le tableau, avec les données qui peuvent être initialisées avant:
+- la consommation
+- les pertes définitivites
+- ce qui part au recyclage primaire
 A faire au départ !
 TODO
 '''
-def initListeConso():
-    pass
+def initialiser():
+    # A FAIRE : on établit la ligne de consommations
+
+    resultats[LIGNE_PERDU_PROD_RAFF] = resultats[LIGNE_CONSO]*POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO
+    resultats[LIGNE_PERDU_PROD_SEMI_FINISHED] = resultats[LIGNE_CONSO]*POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO
+    resultats[LIGNE_RECYCLAGE_PRIMAIRE] = resultats[LIGNE_CONSO]*POURCENTAGE_NEW_WASTE_RAPP_CONSO
 
 
-# Les fonctions principales
+# Les fonctions qui construisent l'année suivante
 
+'''
+Calcule l'année suivante, donc ajoute à chaque ligne concernée un élément de plus
+Concrètement, on calcule les données de année année_actuelle+1 à l'aide des données de année_actuelle
+
+Modifie le tableau !
+'''
+def doAnneeSuivante():
+    global annee_actuelle
+    resultats[LIGNE_STOCK, annee_actuelle - ANNEE_DEBUT] = calculerStockAnneeSuivante()
+    #TODO à compléter avec les autres listes à mettre à jour aussi
+
+    annee_actuelle+=1
+
+
+'''
+Donne le stock présent sur le territoire au 1/1/N+1. Ne modifie pas le taleau
+Concrètement :
+- récupère le stock au 1/1/N
+- ajoute la consommation pendant l'année N
+- enlève ce qui est parti du stock pendant l'année N
+
+TODO pour dispatcher selon quel type d'objet est dans le stock
+'''
+def calculerStockAnneeSuivante():
+    stock_prec = getStock(annee_actuelle)
+    stock_prec+=getConsommation(annee_actuelle)
+    stock_prec-=getSortieStock(annee_actuelle)
+
+    return stock_prec
+
+
+# Accesseur au tableau :
+
+'''
+Donne tout ce qui entre en production par le recyclage (new-waste et old-waste)
+'''
+def getRecyclageTotal(annee):
+    return getRecyclagePrimaire(annee) + getRecyclageSecondaire(annee)
+
+## Accesseurs partie production (tout est initialisé avant, on peut y accéder sans pb)
 
 '''
 Donne le besoin du pays pour l'année, en intégrant à la fois
@@ -63,44 +128,9 @@ Ca correspond à ce qui rentre dans le processus de production
 def getBesoin(annee):
     return getConsommation(annee) + getPerduProductionTotal(annee) + getRecyclagePrimaire(annee)
 
-'''
-Donne la consommation nécessaire du pays l'année donnée
-Accède a la liste initialisée au départ
-TODO
-'''
+
 def getConsommation(annee):
-    return consommations[annee - ANNEE_DEBUT]
-
-
-'''
-Calcule l'année suivante, donc ajoute à chaque liste concernée un élément de plus
-Concrètement, on calcule les données de année année_actuelle+1 à l'aide des données de année_actuelle
-'''
-def doAnneeSuivante():
-    stock.append(calculerStockAnneeSuivante())
-    #TODO à compléter avec les autres listes à mettre à jour aussi
-
-
-    annee_actuelle+=1
-
-
-'''
-Donne le stock présent sur le territoire au 1/1/N+1. Ne modifie pas la liste.
-Concrètement :
-- récupère le stock au 1/1/N
-- ajoute la consommation pendant l'année N
-- enlève ce qui est parti du stock pendant l'année N
-'''
-def calculerStockAnneeSuivante():
-    stock_prec = getStock(annee_actuelle)
-    stock_prec+=getConsommation(annee_actuelle)
-    stock_prec-=getSortieStock(annee_actuelle)
-
-    return stock_prec
-
-
-# Les fonctions secondaires
-
+    return resultats[LIGNE_CONSO, annee - ANNEE_DEBUT]
 
 '''
 Donne ce qui est perdu définitivement lors de la production (raffinement + semi-finished goods)
@@ -112,34 +142,31 @@ def getPerduProductionTotal(annee):
 Donne ce qui est perdu définitivement lors de la partie raffinement de la production
 '''
 def getPerduProductionRaffinement(annee):
-    return POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO*getConsommation(annee)
+    return resultats[LIGNE_PERDU_PROD_RAFF, annee_actuelle - ANNEE_DEBUT]
 
 '''
 Donne ce qui est perdu définitivement lors de la production des semi-finished goods
 '''
 def getPerduProductionSemiFinished(annee):
-    return POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO*getConsommation(annee)
+    return resultats[LIGNE_PERDU_PROD_SEMI_FINISHED, annee_actuelle - ANNEE_DEBUT]
 
 '''
 Donne ce qui part en recyclage primaire (new waste)
 '''
 def getRecyclagePrimaire(annee):
-    return POURCENTAGE_NEW_WASTE_RAPP_CONSO*getConsommation(annee)
+    return resultats[LIGNE_RECYCLAGE_PRIMAIRE, annee_actuelle - ANNEE_DEBUT]
+
+
+
+## Accesseurs partie stock
+
+def getStock(annee):
+    return resultats[LIGNE_STOCK, annee - ANNEE_DEBUT]
 
 
 
 
-
-'''
-Donne tout ce qui entre en production par le recyclage (new-waste et old-waste)
-'''
-def getRecyclageTotal(annee):
-    return getRecyclagePrimaire(annee) + getRecyclageSecondaire(annee)
-
-
-# La partie suivante est vraiment à TODO, c'est un gros morceau
-
-
+## Accesseurs partie après le stock (à TODO)
 
 '''
 Donne ce qui sort des stocks:
@@ -169,7 +196,6 @@ Donne ce qui n'est pas recyclé (mauvaise poubelle)
 '''
 def getNonRecycle(annee):
     pass
-
 
 
 '''
