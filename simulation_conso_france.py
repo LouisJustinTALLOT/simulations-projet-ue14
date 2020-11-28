@@ -90,22 +90,25 @@ def tracer_resultats(tableau):
 ## Accesseurs partie production (tout est initialisé avant, on peut y accéder sans pb)
 
 # getConsoTotale
-def getConsoVehicules(annee):
-    return resultats[LIGNE_CONSO_VEHICULES, annee_actuelle - ANNEE_DEBUT]
+# def getConsoVehicules(no_annee):
+#     return resultats[LIGNE_CONSO_VEHICULES, no_annee]
 
-def getConsoBat(annee):
-    return resultats[LIGNE_CONSO_BAT, annee_actuelle - ANNEE_DEBUT]
+# def getConsoBat(no_annee):
+#     return resultats[LIGNE_CONSO_BAT, no_annee]
 
-def getConsoEquipElec(annee):
-    return resultats[LIGNE_CONSO_EQUIP_ELEC, annee_actuelle - ANNEE_DEBUT]
+# def getConsoEquipElec(no_annee):
+#     return resultats[LIGNE_CONSO_EQUIP_ELEC, no_annee]
 
-def getConsoAppElec(annee):
-    return resultats[LIGNE_CONSO_APP_ELEC, annee_actuelle - ANNEE_DEBUT]
+# def getConsoAppElec(no_annee):
+#     return resultats[LIGNE_CONSO_APP_ELEC, no_annee]
 
-def getConsoTotale(annee):
-    return getConsoVehicules(annee) + getConsoBat(annee) + getConsoEquipElec(annee) + getConsoAppElec(annee)
+def getConsoCategorie(no_annee, categorie_conso):
+    return resultats[categorie_conso, no_annee]
 
 def getConsoTotale(no_annee):
+    # return getConsoVehicules(no_annee) + getConsoBat(no_annee) + getConsoEquipElec(no_annee) + getConsoAppElec(no_annee)
+    return sum([getConsoCategorie(no_annee, cat[1]) for cat in dict_categories_conso.items()])
+
 def getLignesConso():
     return resultats[0:NB_CAT,0:NB_ANNEES]
 
@@ -143,22 +146,24 @@ def getBesoin(no_annee):
 
 ## Accesseurs partie stock (il faut prendre garde à avoir déjà calculé la valeur correspondante !)
 
-def getStockVehicules(annee):
-    return resultats[LIGNE_STOCK_VEHICULES, annee_actuelle - ANNEE_DEBUT]
+# def getStockVehicules(no_annee):
+#     return resultats[LIGNE_STOCK_VEHICULES, no_annee]
 
-def getStockBat(annee):
-    return resultats[LIGNE_STOCK_BAT, annee_actuelle - ANNEE_DEBUT]
+# def getStockBat(no_annee):
+#     return resultats[LIGNE_STOCK_BAT, no_annee]
 
-def getStockEquipElec(annee):
-    return resultats[LIGNE_STOCK_EQUIP_ELEC, annee_actuelle - ANNEE_DEBUT]
+# def getStockEquipElec(no_annee):
+#     return resultats[LIGNE_STOCK_EQUIP_ELEC, no_annee]
 
-def getStockAppElec(annee):
-    return resultats[LIGNE_STOCK_APP_ELEC, annee_actuelle - ANNEE_DEBUT]
+# def getStockAppElec(no_annee):
+#     return resultats[LIGNE_STOCK_APP_ELEC, no_annee]
 
-def getStock(annee):
-    return getStockVehicules(annee) + getStockBat(annee) + getStockEquipElec(annee) + getStockAppElec(annee)
+def getStockCategorie(no_annee, categorie_stock):
+    return resultats[categorie_stock, no_annee]
 
 def getStock(no_annee): 
+    # return getStockVehicules(no_annee) + getStockBat(no_annee) + getStockEquipElec(no_annee) + getStockAppElec(no_annee)
+    return sum([getStockCategorie(no_annee, cat[1]) for cat in dict_categories_stock.items()])
 
 ## Accesseurs partie après le stock (à TODO) :
 
@@ -167,21 +172,24 @@ def getStock(no_annee):
 - ce qui va être perdu définitivement (abandonné, non-recyclé et perdu lors du recyclage)
 '''
 # getSortieStock
-def getSortieStockVehicules(annee):
-    return resultats[LIGNE_CONSO_VEHICULES, annee - TEMPS_VEHICULES]
+# def getSortieStockVehicules(no_annee):
+#     return resultats[LIGNE_CONSO_VEHICULES, no_annee - TEMPS_VEHICULES]
 
-def getSortieStockBat(annee):
-    return resultats[LIGNE_CONSO_BAT, annee - TEMPS_BAT]
+# def getSortieStockBat(no_annee):
+#     return resultats[LIGNE_CONSO_BAT, no_annee - TEMPS_BAT]
 
-def getSortieStockEquipElec(annee):
-    return resultats[LIGNE_CONSO_EQUIP_ELEC, annee - TEMPS_EQUIP_ELEC]
+# def getSortieStockEquipElec(no_annee):
+#     return resultats[LIGNE_CONSO_EQUIP_ELEC, no_annee - TEMPS_EQUIP_ELEC]
 
-def getSortieStockAppElec(annee):
-    return resultats[LIGNE_CONSO_APP_ELEC, annee - TEMPS_APP_ELEC]
+# def getSortieStockAppElec(no_annee):
+#     return resultats[LIGNE_CONSO_APP_ELEC, no_annee - TEMPS_APP_ELEC]
 
 def getSortieStockCategorie(no_annee, categorie_stock):
+    return resultats[categorie_stock, no_annee - dict_temps[categorie_stock]]
 
 def getSortieStock(no_annee):
+    # return getSortieStockVehicules(no_annee) + getSortieStockBat(no_annee) + getSortieStockEquipElec(no_annee) + getSortieStockAppElec(no_annee)
+    return sum([getSortieStockCategorie(no_annee, cat[1]) for cat in dict_categories_stock.items()])
 
 def getRecyclageSecondaire(no_annee):
     '''Donne ce qui va partir en recyclage secondaire et donc revenir dans la production'''
@@ -223,20 +231,25 @@ def calculerStockAnneeSuivante(no_annee):
     '''
     stock_prec = np.zeros( (NB_DONNEES) )
 
-    stock_prec[LIGNE_STOCK_VEHICULES] = getStockVehicules(annee_actuelle)
-    stock_prec[LIGNE_STOCK_BAT] = getStockBat(annee_actuelle)
-    stock_prec[LIGNE_STOCK_EQUIP_ELEC] = getStockEquipElec(annee_actuelle)
-    stock_prec[LIGNE_STOCK_APP_ELEC] = getStockAppElec(annee_actuelle)
+    for nom_cat in liste_categories :
+        stock_prec[dict_categories_stock[nom_cat]] =  getStockCategorie(no_annee, dict_categories_stock[nom_cat])
+        stock_prec[dict_categories_stock[nom_cat]] += getConsoCategorie(no_annee, dict_categories_conso[nom_cat])
+        stock_prec[dict_categories_stock[nom_cat]] -= getSortieStockCategorie(no_annee, dict_categories_stock[nom_cat])
 
-    stock_prec[LIGNE_STOCK_VEHICULES]+=getConsoVehicules(annee_actuelle)
-    stock_prec[LIGNE_STOCK_BAT]+=getConsoBat(annee_actuelle)
-    stock_prec[LIGNE_STOCK_EQUIP_ELEC]+=getConsoEquipElec(annee_actuelle)
-    stock_prec[LIGNE_STOCK_APP_ELEC]+=getConsoAppElec(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_VEHICULES] = getStockVehicules(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_BAT] = getStockBat(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_EQUIP_ELEC] = getStockEquipElec(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_APP_ELEC] = getStockAppElec(annee_actuelle)
 
-    stock_prec[LIGNE_STOCK_VEHICULES]-= getSortieStockVehicules(annee_actuelle)
-    stock_prec[LIGNE_STOCK_BAT]-= getSortieStockBat(annee_actuelle)
-    stock_prec[LIGNE_STOCK_EQUIP_ELEC]-= getSortieStockEquipElec(annee_actuelle)
-    stock_prec[LIGNE_STOCK_APP_ELEC]-= getSortieStockAppElec(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_VEHICULES]+=getConsoVehicules(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_BAT]+=getConsoBat(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_EQUIP_ELEC]+=getConsoEquipElec(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_APP_ELEC]+=getConsoAppElec(annee_actuelle)
+
+    # stock_prec[LIGNE_STOCK_VEHICULES]-= getSortieStockVehicules(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_BAT]-= getSortieStockBat(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_EQUIP_ELEC]-= getSortieStockEquipElec(annee_actuelle)
+    # stock_prec[LIGNE_STOCK_APP_ELEC]-= getSortieStockAppElec(annee_actuelle)
 
     return stock_prec
 
