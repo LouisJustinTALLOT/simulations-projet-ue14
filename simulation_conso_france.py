@@ -91,17 +91,6 @@ def tracer_resultats(tableau):
 ## Accesseurs partie production (tout est initialisé avant, on peut y accéder sans pb)
 
 # getConsoTotale
-# def getConsoVehicules(no_annee):
-#     return resultats[LIGNE_CONSO_VEHICULES, no_annee]
-
-# def getConsoBat(no_annee):
-#     return resultats[LIGNE_CONSO_BAT, no_annee]
-
-# def getConsoEquipElec(no_annee):
-#     return resultats[LIGNE_CONSO_EQUIP_ELEC, no_annee]
-
-# def getConsoAppElec(no_annee):
-#     return resultats[LIGNE_CONSO_APP_ELEC, no_annee]
 
 def getConsoCategorie(no_annee, categorie_conso):
     return resultats[categorie_conso, no_annee]
@@ -147,17 +136,6 @@ def getBesoin(no_annee):
 
 ## Accesseurs partie stock (il faut prendre garde à avoir déjà calculé la valeur correspondante !)
 
-# def getStockVehicules(no_annee):
-#     return resultats[LIGNE_STOCK_VEHICULES, no_annee]
-
-# def getStockBat(no_annee):
-#     return resultats[LIGNE_STOCK_BAT, no_annee]
-
-# def getStockEquipElec(no_annee):
-#     return resultats[LIGNE_STOCK_EQUIP_ELEC, no_annee]
-
-# def getStockAppElec(no_annee):
-#     return resultats[LIGNE_STOCK_APP_ELEC, no_annee]
 
 def getStockCategorie(no_annee, categorie_stock):
     return resultats[categorie_stock, no_annee]
@@ -166,25 +144,13 @@ def getStock(no_annee):
     # return getStockVehicules(no_annee) + getStockBat(no_annee) + getStockEquipElec(no_annee) + getStockAppElec(no_annee)
     return sum([getStockCategorie(no_annee, cat[1]) for cat in dict_categories_stock.items()])
 
-## Accesseurs partie après le stock (à TODO) :
+## Accesseurs partie après le stock (TODO) :
 
 '''Donne ce qui sort des stocks:
 - ce qui va être recyclé (fin de vie, old-waste), somme de toutes les catégories
 - ce qui va être perdu définitivement (abandonné, non-recyclé et perdu lors du recyclage)
 '''
 # getSortieStock
-# def getSortieStockVehicules(no_annee):
-#     return resultats[LIGNE_CONSO_VEHICULES, no_annee - TEMPS_VEHICULES]
-
-# def getSortieStockBat(no_annee):
-#     return resultats[LIGNE_CONSO_BAT, no_annee - TEMPS_BAT]
-
-# def getSortieStockEquipElec(no_annee):
-#     return resultats[LIGNE_CONSO_EQUIP_ELEC, no_annee - TEMPS_EQUIP_ELEC]
-
-# def getSortieStockAppElec(no_annee):
-#     return resultats[LIGNE_CONSO_APP_ELEC, no_annee - TEMPS_APP_ELEC]
-
 def getSortieStockCategorie(no_annee, categorie_stock):
     return resultats[categorie_stock, no_annee - dict_temps[categorie_stock]]
 
@@ -192,31 +158,21 @@ def getSortieStock(no_annee):
     # return getSortieStockVehicules(no_annee) + getSortieStockBat(no_annee) + getSortieStockEquipElec(no_annee) + getSortieStockAppElec(no_annee)
     return sum([getSortieStockCategorie(no_annee, cat[1]) for cat in dict_categories_stock.items()])
 
-def getRecyclageSecondaire(no_annee):
+def getRecyclageSecondaireCategorie(no_annee,categorie):
     '''Donne ce qui va partir en recyclage secondaire et donc revenir dans la production'''
-    pass
+    return dict_portion_recyclee[categorie] * getSortieStockCategorie(no_annee, categorie)
 
 
-def getAbandonne(no_annee, categorie):
-    '''Donne ce qui sort des stocks mais qui est abandonne'''
-    pass
-
-
-def getNonRecycle(no_annee, categorie):
-    '''Donne ce qui n'est pas recyclé (mauvaise poubelle)'''
-    pass
-
-
-def getPerduRecyclageSecondaire(no_annee, categorie):
+def getObtenuRecyclageSecondaireCategorie(no_annee, categorie):
     '''Donne ce qui est perdu lors du recyclage secondaire (rendement)'''
-    pass
+    return dict_rendement_recylage[categorie] * getRecyclageSecondaireCategorie(no_annee, categorie)
 
 
 # Accesseur au tableau :
-
+"""A mettre par categorie"""
 def getRecyclageTotal(no_annee):
     '''Donne tout ce qui entre en production par le recyclage (new-waste et old-waste)'''
-    return getRecyclagePrimaire(no_annee) + getRecyclageSecondaire(no_annee)
+    return getRecyclagePrimaire(no_annee) + getObtenuRecyclageSecondaireCategorie(no_annee)
 
 
 def calculerStockAnneeSuivante(no_annee):
@@ -238,20 +194,6 @@ def calculerStockAnneeSuivante(no_annee):
         stock_prec[dict_categories_stock[nom_cat]] += getConsoCategorie(no_annee, dict_categories_conso[nom_cat])
         stock_prec[dict_categories_stock[nom_cat]] -= getSortieStockCategorie(no_annee, dict_categories_stock[nom_cat])
 
-    # stock_prec[LIGNE_STOCK_VEHICULES] = getStockVehicules(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_BAT] = getStockBat(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_EQUIP_ELEC] = getStockEquipElec(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_APP_ELEC] = getStockAppElec(annee_actuelle)
-
-    # stock_prec[LIGNE_STOCK_VEHICULES]+=getConsoVehicules(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_BAT]+=getConsoBat(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_EQUIP_ELEC]+=getConsoEquipElec(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_APP_ELEC]+=getConsoAppElec(annee_actuelle)
-
-    # stock_prec[LIGNE_STOCK_VEHICULES]-= getSortieStockVehicules(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_BAT]-= getSortieStockBat(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_EQUIP_ELEC]-= getSortieStockEquipElec(annee_actuelle)
-    # stock_prec[LIGNE_STOCK_APP_ELEC]-= getSortieStockAppElec(annee_actuelle)
 
     return stock_prec
 
