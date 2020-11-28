@@ -342,3 +342,5 @@ def simul():
         doAnneeSuivante(a)
     #TODO
     tracer_resultats(resultats)
+
+simul()
