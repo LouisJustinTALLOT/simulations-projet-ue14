@@ -23,6 +23,7 @@ ANNEES = ANNEE_FIN - ANNEE_DEBUT
 RANGE_ANNEES = np.array([a for a in range(ANNEE_DEBUT, ANNEE_FIN+1)])
 
 NB_DONNEES = 11
+NB_CAT = 4
 
 LIGNE_CONSO_VEHICULES = 0
 LIGNE_CONSO_BAT = 1
@@ -88,6 +89,9 @@ def getConsoAppElec(annee):
 
 def getConsoTotale(annee):
     return getConsoVehicules(annee) + getConsoBat(annee) + getConsoEquipElec(annee) + getConsoAppElec(annee)
+
+def getLignesConso():
+    return resultats[0:NB_CAT,0:ANNEES]
 
 
 # getPerduProductionTotal
@@ -248,9 +252,9 @@ def initialiser(): #TODO
     '''
     # A FAIRE : on établit la ligne de consommations
 
-    resultats[LIGNE_PERDU_PROD_RAFF] = resultats[LIGNE_CONSO]*POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO
-    resultats[LIGNE_PERDU_PROD_SEMI_FINISHED] = resultats[LIGNE_CONSO]*POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO
-    resultats[LIGNE_RECYCLAGE_PRIMAIRE] = resultats[LIGNE_CONSO]*POURCENTAGE_NEW_WASTE_RAPP_CONSO
+    resultats[LIGNE_PERDU_PROD_RAFF] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO
+    resultats[LIGNE_PERDU_PROD_SEMI_FINISHED] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO
+    resultats[LIGNE_RECYCLAGE_PRIMAIRE] = getLignesConso().sum(axis=-2)*POURCENTAGE_NEW_WASTE_RAPP_CONSO
 
 
 # Programme principal
