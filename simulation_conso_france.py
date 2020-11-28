@@ -37,11 +37,17 @@ LIGNE_STOCK_BAT = 8
 LIGNE_STOCK_EQUIP_ELEC = 9
 LIGNE_STOCK_APP_ELEC = 10
 
+liste_categories = ["Vehicules", "Batiments", "Equipement electronique", "Appareils electroniques"]
 
-POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO = 1.75
-POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO = 1.09
-POURCENTAGE_NEW_WASTE_RAPP_CONSO = 16.4
+dict_categories_stock = {"Vehicules" : LIGNE_STOCK_VEHICULES,
+                            "Batiments" : LIGNE_STOCK_BAT,
+                            "Equipement electronique" : LIGNE_STOCK_EQUIP_ELEC, 
+                            "Appareils electroniques" : LIGNE_STOCK_APP_ELEC}
 
+dict_categories_conso = {"Vehicules" : LIGNE_CONSO_VEHICULES,
+                            "Batiments" : LIGNE_CONSO_BAT,
+                            "Equipements electroniques" : LIGNE_CONSO_EQUIP_ELEC, 
+                            "Appareils electroniques" : LIGNE_CONSO_APP_ELEC}
 
 TEMPS_VEHICULES = 5
 TEMPS_BAT = 50
