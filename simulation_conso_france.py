@@ -59,7 +59,11 @@ TEMPS_BAT = 50
 TEMPS_EQUIP_ELEC = 10
 TEMPS_APP_ELEC = 3
 
-annee_actuelle = ANNEE_DEBUT
+dict_temps = {}
+dict_temps[LIGNE_STOCK_VEHICULES] = TEMPS_VEHICULES
+dict_temps[LIGNE_STOCK_BAT] = TEMPS_BAT
+dict_temps[LIGNE_STOCK_EQUIP_ELEC] = TEMPS_EQUIP_ELEC
+dict_temps[LIGNE_STOCK_APP_ELEC] = TEMPS_APP_ELEC
 
 '''TABLEAU
 Enregistre toutes les données, année après années.
