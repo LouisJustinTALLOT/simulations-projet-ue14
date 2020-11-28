@@ -25,6 +25,11 @@ RANGE_ANNEES = np.array([a for a in range(ANNEE_DEBUT, ANNEE_FIN+1)])
 NB_DONNEES = 11
 NB_CAT = 4
 
+NOM_VEHICULES = "Vehicules"
+NOM_BAT = "Batiments"
+NOM_EQUIP_ELEC = "Equipements Electroniques"
+NOM_APP_ELEC = "Appareils Electroniques"
+
 LIGNE_CONSO_VEHICULES = 0
 LIGNE_CONSO_BAT = 1
 LIGNE_CONSO_EQUIP_ELEC = 2
@@ -38,19 +43,6 @@ LIGNE_STOCK_BAT = 8
 LIGNE_STOCK_EQUIP_ELEC = 9
 LIGNE_STOCK_APP_ELEC = 10
 
-liste_categories = ["Vehicules", "Batiments", "Equipement electronique", "Appareils electroniques"]
-
-dict_categories_stock = {"Vehicules" : LIGNE_STOCK_VEHICULES,
-                            "Batiments" : LIGNE_STOCK_BAT,
-                            "Equipement electronique" : LIGNE_STOCK_EQUIP_ELEC, 
-                            "Appareils electroniques" : LIGNE_STOCK_APP_ELEC}
-
-dict_categories_conso = {"Vehicules" : LIGNE_CONSO_VEHICULES,
-                            "Batiments" : LIGNE_CONSO_BAT,
-                            "Equipements electroniques" : LIGNE_CONSO_EQUIP_ELEC, 
-                            "Appareils electroniques" : LIGNE_CONSO_APP_ELEC}
-
-
 POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO = 1.75/100
 POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO = 1.09/100
 POURCENTAGE_NEW_WASTE_RAPP_CONSO = 16.4/100
@@ -59,6 +51,35 @@ TEMPS_VEHICULES = 5
 TEMPS_BAT = 50
 TEMPS_EQUIP_ELEC = 10
 TEMPS_APP_ELEC = 3
+
+POURCENTAGE_RECYCLE_VEHICULES = 90/100
+POURCENTAGE_RECYCLE_BAT = 95/100
+POURCENTAGE_RECYCLE_EQUIP_ELEC = 70/100
+POURCENTAGE_RECYCLE_APP_ELEC = 60/100
+
+RENDEMENT_RECYCLE_VEHICULES = 70/100
+RENDEMENT_RECYCLE_BAT = 60/100
+RENDEMENT_RECYCLE_EQUI_ELEC = 80/100
+RENDEMENT_RECYCLE_APP_ELEC = 75/100
+
+
+
+liste_categories = [NOM_VEHICULES, NOM_BAT, NOM_EQUIP_ELEC, NOM_APP_ELEC]
+
+dict_categories_stock = {NOM_VEHICULES : LIGNE_STOCK_VEHICULES,
+                            NOM_BAT : LIGNE_STOCK_BAT,
+                            NOM_EQUIP_ELEC : LIGNE_STOCK_EQUIP_ELEC, 
+                            NOM_APP_ELEC : LIGNE_STOCK_APP_ELEC}
+
+dict_categories_conso = {NOM_VEHICULES : LIGNE_CONSO_VEHICULES,
+                            NOM_BAT : LIGNE_CONSO_BAT,
+                            NOM_EQUIP_ELEC : LIGNE_CONSO_EQUIP_ELEC, 
+                            NOM_APP_ELEC : LIGNE_CONSO_APP_ELEC}
+
+
+
+dict_portion_recyclee = {NOM_VEHICULES : POURCENTAGE_RECYCLE_VEHICULES, NOM_BAT : POURCENTAGE_RECYCLE_BAT, NOM_EQUIP_ELEC : POURCENTAGE_RECYCLE_EQUIP_ELEC, NOM_APP_ELEC : POURCENTAGE_RECYCLE_APP_ELEC}
+dict_rendement_recyclage = {NOM_VEHICULES : RENDEMENT_RECYCLE_VEHICULES, NOM_BAT : RENDEMENT_RECYCLE_BAT, NOM_EQUIP_ELEC : RENDEMENT_RECYCLE_EQUI_ELEC, NOM_APP_ELEC : RENDEMENT_RECYCLE_APP_ELEC}
 
 dict_temps = {}
 dict_temps[LIGNE_STOCK_VEHICULES] = TEMPS_VEHICULES
@@ -159,20 +180,20 @@ def getSortieStock(no_annee):
     return sum([getSortieStockCategorie(no_annee, cat[1]) for cat in dict_categories_stock.items()])
 
 def getRecyclageSecondaireCategorie(no_annee,categorie):
-    '''Donne ce qui va partir en recyclage secondaire et donc revenir dans la production'''
+    '''Donne ce qui va partir en recyclage secondaire, à partir de ce qui sort des stocks (facteurs d'abandon/mauvaise poubelle)'''
     return dict_portion_recyclee[categorie] * getSortieStockCategorie(no_annee, categorie)
 
 
 def getObtenuRecyclageSecondaireCategorie(no_annee, categorie):
-    '''Donne ce qui est perdu lors du recyclage secondaire (rendement)'''
-    return dict_rendement_recylage[categorie] * getRecyclageSecondaireCategorie(no_annee, categorie)
+    '''Donne ce qui est obtenu lors du recyclage secondaire (rendement), et qui va donc directement repartir dans les stocks'''
+    return dict_rendement_recyclage[categorie] * getRecyclageSecondaireCategorie(no_annee, categorie)
 
 
 # Accesseur au tableau :
 """A mettre par categorie"""
 def getRecyclageTotal(no_annee):
-    '''Donne tout ce qui entre en production par le recyclage (new-waste et old-waste)'''
-    return getRecyclagePrimaire(no_annee) + getObtenuRecyclageSecondaireCategorie(no_annee)
+    '''Donne tout ce qui entre en production par le recyclage (new-waste, et old-waste toutes catégories confondues)'''
+    return getRecyclagePrimaire(no_annee) + sum([getObtenuRecyclageSecondaireCategorie(no_annee, cat[1]) for cat in dict_categories_stock.items()])
 
 
 def calculerStockAnneeSuivante(no_annee):
