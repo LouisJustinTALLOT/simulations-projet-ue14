@@ -32,6 +32,7 @@ LIGNE_CONSO_APP_ELEC = 3
 LIGNE_PERDU_PROD_RAFF = 4
 LIGNE_PERDU_PROD_SEMI_FINISHED = 5
 LIGNE_RECYCLAGE_PRIMAIRE = 6
+# catégories de consommation
 LIGNE_STOCK_VEHICULES = 7
 LIGNE_STOCK_BAT = 8
 LIGNE_STOCK_EQUIP_ELEC = 9
@@ -82,7 +83,7 @@ def tracer_resultats(tableau):
     plt.close()
 
     for no_donnee in range(NB_DONNEES):
-        plt.plot(tableau[no_donnee,:],RANGE_ANNEES)
+        plt.plot(tableau[no_donnee,:],RANGE_ANNEES) # manque un label
         plt.figure()
 
     plt.show()
@@ -225,7 +226,8 @@ def calculerStockAnneeSuivante(no_annee):
     - ajoute la consommation pendant l'année N
     - enlève ce qui est parti du stock pendant l'année N
 
-    Retourne une colonne avec des données situées aux lignes des stocks et des 0 autre part (comme ça il suffit de le sommer)
+    Retourne une colonne avec des données situées aux lignes des stocks 
+    et des 0 autre part (comme ça il suffit de le sommer)
 
     TODO pour dispatcher selon quel type d'objet est dans le stock
     '''
