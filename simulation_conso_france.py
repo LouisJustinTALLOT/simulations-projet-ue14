@@ -141,7 +141,7 @@ def tracer_resultats(tableau):
     plt.close()
 
     for no_donnee in range(NB_LIGNES):
-        plt.plot(RANGE_ANNEES,tableau[no_donnee,:]) # manque un label
+        plt.plot(RANGE_ANNEES,tableau[no_donnee,:],'.') # manque un label
         plt.figure()
 
     plt.show()
