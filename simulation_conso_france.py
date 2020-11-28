@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 ANNEE_DEBUT = 2018
 ANNEE_FIN = 2050
-NB_ANNEES = ANNEE_FIN - ANNEE_DEBUT
+NB_ANNEES = ANNEE_FIN - (ANNEE_DEBUT - 1)  
 
 RANGE_ANNEES = np.array([a for a in range(ANNEE_DEBUT, ANNEE_FIN+1)])
 
