@@ -105,39 +105,40 @@ def getConsoAppElec(annee):
 def getConsoTotale(annee):
     return getConsoVehicules(annee) + getConsoBat(annee) + getConsoEquipElec(annee) + getConsoAppElec(annee)
 
+def getConsoTotale(no_annee):
 def getLignesConso():
     return resultats[0:NB_CAT,0:NB_ANNEES]
 
 
 # getPerduProductionTotal
-def getPerduProductionRaffinement(annee):
+def getPerduProductionRaffinement(no_annee):
     '''Donne ce qui est perdu définitivement lors de la partie raffinement de la production'''
-    return resultats[LIGNE_PERDU_PROD_RAFF, annee_actuelle - ANNEE_DEBUT]
+    return resultats[LIGNE_PERDU_PROD_RAFF, no_annee]
 
-def getPerduProductionSemiFinished(annee):
+def getPerduProductionSemiFinished(no_annee):
     '''Donne ce qui est perdu définitivement lors de la production des semi-finished goods'''
-    return resultats[LIGNE_PERDU_PROD_SEMI_FINISHED, annee_actuelle - ANNEE_DEBUT]
+    return resultats[LIGNE_PERDU_PROD_SEMI_FINISHED, no_annee]
 
-def getPerduProductionTotal(annee):
+def getPerduProductionTotal(no_annee):
     '''Donne ce qui est perdu définitivement lors de la production (raffinement + semi-finished goods)'''
-    return getPerduProductionRaffinement(annee) + getPerduProductionSemiFinished(annee)
+    return getPerduProductionRaffinement(no_annee) + getPerduProductionSemiFinished(no_annee)
 
 
 # getRecyclagePrimaire
-def getRecyclagePrimaire(annee):
+def getRecyclagePrimaire(no_annee):
     '''Donne ce qui part en recyclage primaire (new waste)'''
-    return resultats[LIGNE_RECYCLAGE_PRIMAIRE, annee_actuelle - ANNEE_DEBUT]
+    return resultats[LIGNE_RECYCLAGE_PRIMAIRE, no_annee]
 
 
 # getBesoin
-def getBesoin(annee):
+def getBesoin(no_annee):
     '''Donne le besoin du pays pour l'année, en intégrant à la fois
     - ce qui sera consommé
     - ce qui sera perdu définitivement (raffinement + semi-finished goods)
     - ce qui partira en recyclage primaire (new-waste)
     Ca correspond à ce qui rentre dans le processus de production
     '''
-    return getConsoTotale(annee) + getPerduProductionTotal(annee) + getRecyclagePrimaire(annee)
+    return getConsoTotale(no_annee) + getPerduProductionTotal(no_annee) + getRecyclagePrimaire(no_annee)
 
 
 ## Accesseurs partie stock (il faut prendre garde à avoir déjà calculé la valeur correspondante !)
@@ -157,6 +158,7 @@ def getStockAppElec(annee):
 def getStock(annee):
     return getStockVehicules(annee) + getStockBat(annee) + getStockEquipElec(annee) + getStockAppElec(annee)
 
+def getStock(no_annee): 
 
 ## Accesseurs partie après le stock (à TODO) :
 
@@ -177,38 +179,38 @@ def getSortieStockEquipElec(annee):
 def getSortieStockAppElec(annee):
     return resultats[LIGNE_CONSO_APP_ELEC, annee - TEMPS_APP_ELEC]
 
-def getSortieStock(annee):
-    return getSortieStockVehicules(annee) + getSortieStockBat(annee) + getSortieStockEquipElec(annee) + getSortieStockAppElec(annee)
+def getSortieStockCategorie(no_annee, categorie_stock):
 
+def getSortieStock(no_annee):
 
-def getRecyclageSecondaire(annee):
+def getRecyclageSecondaire(no_annee):
     '''Donne ce qui va partir en recyclage secondaire et donc revenir dans la production'''
     pass
 
 
-def getAbandonne(annee):
+def getAbandonne(no_annee, categorie):
     '''Donne ce qui sort des stocks mais qui est abandonne'''
     pass
 
 
-def getNonRecycle(annee):
+def getNonRecycle(no_annee, categorie):
     '''Donne ce qui n'est pas recyclé (mauvaise poubelle)'''
     pass
 
 
-def getPerduRecyclageSecondaire(annee):
+def getPerduRecyclageSecondaire(no_annee, categorie):
     '''Donne ce qui est perdu lors du recyclage secondaire (rendement)'''
     pass
 
 
 # Accesseur au tableau :
 
-def getRecyclageTotal(annee):
+def getRecyclageTotal(no_annee):
     '''Donne tout ce qui entre en production par le recyclage (new-waste et old-waste)'''
-    return getRecyclagePrimaire(annee) + getRecyclageSecondaire(annee)
+    return getRecyclagePrimaire(no_annee) + getRecyclageSecondaire(no_annee)
 
 
-def calculerStockAnneeSuivante():
+def calculerStockAnneeSuivante(no_annee):
     '''Donne le stock présent sur le territoire au 1/1/N+1. Ne modifie pas le taleau
     Concrètement :
     - récupère le stock au 1/1/N
@@ -241,19 +243,19 @@ def calculerStockAnneeSuivante():
 
 # Les fonctions qui construisent l'année suivante
 
-def doAnneeSuivante():
+def doAnneeSuivante(no_annee):
     '''Calcule l'année suivante, donc ajoute à chaque ligne concernée un élément de plus
     Concrètement, on calcule les données de année_actuelle+1 à l'aide des données de année_actuelle
 
     Modifie le tableau !
     '''
-    global annee_actuelle
+    # global annee_actuelle
     global resultats
     #TODO à compléter avec les autres listes à mettre à jour aussi
-    colonne_stock = calculerStockAnneeSuivante()
-    resultats[0:NB_DONNEES, annee_actuelle - ANNEE_DEBUT]+=colonne_stock
+    colonne_stock = calculerStockAnneeSuivante(no_annee)
+    resultats[0:NB_DONNEES, no_annee]+=colonne_stock
 
-    annee_actuelle+=1
+    # annee_actuelle+=1
 
 
 # Les fonctions avant de lancer la simulation
@@ -277,7 +279,7 @@ def initialiser(): #TODO
 def simul():
     '''Réalise la simulation'''
     initialiser()
-    while annee_actuelle < ANNEE_FIN:
-        doAnneeSuivante()
+    for a in range(NB_ANNEES):
+        doAnneeSuivante(a)
     #TODO
     tracer_resultats(resultats)
