@@ -210,7 +210,10 @@ def getStock(no_annee):
 '''
 # getSortieStock
 def getSortieStockCategorie(no_annee, categorie):
-    return resultats[dict_lignes_stock[categorie], no_annee - dict_temps[categorie]]
+    try:
+        return resultats[dict_lignes_stock[categorie], no_annee - dict_temps[categorie]]
+    except:
+        return 0.1 * resultats[dict_lignes_stock[categorie], no_annee ] # mettre une valeur typique
 
 def getSortieStock(no_annee):
     # return getSortieStockVehicules(no_annee) + getSortieStockBat(no_annee) + getSortieStockEquipElec(no_annee) + getSortieStockAppElec(no_annee)
