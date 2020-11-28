@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 ANNEE_DEBUT = 2018
 ANNEE_FIN = 2050
-ANNEES = ANNEE_FIN - ANNEE_DEBUT
+NB_ANNEES = ANNEE_FIN - ANNEE_DEBUT
 
 RANGE_ANNEES = np.array([a for a in range(ANNEE_DEBUT, ANNEE_FIN+1)])
 
@@ -64,7 +64,7 @@ Système d'accès au tableau :
 
 '''
 
-resultats = np.zeros( (NB_DONNEES, ANNEES) )
+resultats = np.zeros( (NB_DONNEES, NB_ANNEES) )
 
 # Traçage des résultats :
 
@@ -97,7 +97,7 @@ def getConsoTotale(annee):
     return getConsoVehicules(annee) + getConsoBat(annee) + getConsoEquipElec(annee) + getConsoAppElec(annee)
 
 def getLignesConso():
-    return resultats[0:NB_CAT,0:ANNEES]
+    return resultats[0:NB_CAT,0:NB_ANNEES]
 
 
 # getPerduProductionTotal
