@@ -49,6 +49,11 @@ dict_categories_conso = {"Vehicules" : LIGNE_CONSO_VEHICULES,
                             "Equipements electroniques" : LIGNE_CONSO_EQUIP_ELEC, 
                             "Appareils electroniques" : LIGNE_CONSO_APP_ELEC}
 
+
+POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO = 1.75/100
+POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO = 1.09/100
+POURCENTAGE_NEW_WASTE_RAPP_CONSO = 16.4/100
+
 TEMPS_VEHICULES = 5
 TEMPS_BAT = 50
 TEMPS_EQUIP_ELEC = 10
