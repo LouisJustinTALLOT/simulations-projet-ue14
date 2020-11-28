@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 '''Comment ça fonctionne ?
  - on calcule en premier lieu les consommations estimées (connu)
  - on lance la simulation :
-   - il y a un champ d'année courante
-   - on calcule au fur et à mesure les stocks (et autres variables) de l'année suivante, 
+   - on calcule au fur et à mesure les stocks, ce qui sort du stock et le recyclage de l'année suivante, 
      à l'aide notamment des données de l'année précédente
    - on ajoute au tableau les nouvelles données
    - on recommence
@@ -22,7 +21,7 @@ NB_ANNEES = ANNEE_FIN - ANNEE_DEBUT
 
 RANGE_ANNEES = np.array([a for a in range(ANNEE_DEBUT, ANNEE_FIN+1)])
 
-NB_DONNEES = 11
+NB_LIGNES = 23
 NB_CAT = 4
 
 NOM_VEHICULES = "Vehicules"
@@ -30,18 +29,36 @@ NOM_BAT = "Batiments"
 NOM_EQUIP_ELEC = "Equipements Electroniques"
 NOM_APP_ELEC = "Appareils Electroniques"
 
+#Consommation annuelle de...
 LIGNE_CONSO_VEHICULES = 0
 LIGNE_CONSO_BAT = 1
 LIGNE_CONSO_EQUIP_ELEC = 2
 LIGNE_CONSO_APP_ELEC = 3
-LIGNE_PERDU_PROD_RAFF = 4
-LIGNE_PERDU_PROD_SEMI_FINISHED = 5
-LIGNE_RECYCLAGE_PRIMAIRE = 6
-# catégories de consommation
-LIGNE_STOCK_VEHICULES = 7
-LIGNE_STOCK_BAT = 8
-LIGNE_STOCK_EQUIP_ELEC = 9
-LIGNE_STOCK_APP_ELEC = 10
+#Stock à l'année N de...
+LIGNE_STOCK_VEHICULES = 4
+LIGNE_STOCK_BAT = 5
+LIGNE_STOCK_EQUIP_ELEC = 6
+LIGNE_STOCK_APP_ELEC = 7
+#Sortie du stock à l'année N de...
+LIGNE_SORTIE_STOCK_VEHICULES = 8
+LIGNE_SORTIE_STOCK_BAT = 9
+LIGNE_SORTIE_STOCK_EQUIP_ELEC = 10
+LIGNE_SORTIE_STOCK_APP_ELEC = 11
+#Ce qui va au recyclage à l'année N de...
+LIGNE_GOREC_VEHICULES = 12
+LIGNE_GOREC_BAT = 13
+LIGNE_GOREC_EQUIP_ELEC = 14
+LIGNE_GOREC_APP_ELEC = 15
+#Ce que l'on gagne par recyclage à l'année N de...
+LIGNE_GAINED_REC_VEHICULES = 16
+LIGNE_GAINED_REC_BAT = 17
+LIGNE_GAINED_REC_EQUIP_ELEC = 18
+LIGNE_GAINED_REC_APP_ELEC = 19
+#Partie production
+LIGNE_PERDU_PROD_RAFF = 20
+LIGNE_PERDU_PROD_SEMI_FINISHED = 21
+LIGNE_RECYCLAGE_PRIMAIRE = 22
+
 
 POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO = 1.75/100
 POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO = 1.09/100
@@ -66,32 +83,56 @@ RENDEMENT_RECYCLE_APP_ELEC = 75/100
 
 liste_categories = [NOM_VEHICULES, NOM_BAT, NOM_EQUIP_ELEC, NOM_APP_ELEC]
 
-dict_categories_stock = {NOM_VEHICULES : LIGNE_STOCK_VEHICULES,
-                            NOM_BAT : LIGNE_STOCK_BAT,
-                            NOM_EQUIP_ELEC : LIGNE_STOCK_EQUIP_ELEC, 
-                            NOM_APP_ELEC : LIGNE_STOCK_APP_ELEC}
-
-dict_categories_conso = {NOM_VEHICULES : LIGNE_CONSO_VEHICULES,
+dict_lignes_conso = {NOM_VEHICULES : LIGNE_CONSO_VEHICULES,
                             NOM_BAT : LIGNE_CONSO_BAT,
                             NOM_EQUIP_ELEC : LIGNE_CONSO_EQUIP_ELEC, 
                             NOM_APP_ELEC : LIGNE_CONSO_APP_ELEC}
 
+dict_lignes_stock = {NOM_VEHICULES : LIGNE_STOCK_VEHICULES,
+                            NOM_BAT : LIGNE_STOCK_BAT,
+                            NOM_EQUIP_ELEC : LIGNE_STOCK_EQUIP_ELEC, 
+                            NOM_APP_ELEC : LIGNE_STOCK_APP_ELEC}
+
+dict_lignes_sortie_stock = {NOM_VEHICULES : LIGNE_SORTIE_STOCK_VEHICULES,
+                            NOM_BAT : LIGNE_SORTIE_STOCK_BAT,
+                            NOM_EQUIP_ELEC : LIGNE_SORTIE_STOCK_EQUIP_ELEC, 
+                            NOM_APP_ELEC : LIGNE_SORTIE_STOCK_APP_ELEC}
 
 
-dict_portion_recyclee = {NOM_VEHICULES : POURCENTAGE_RECYCLE_VEHICULES, NOM_BAT : POURCENTAGE_RECYCLE_BAT, NOM_EQUIP_ELEC : POURCENTAGE_RECYCLE_EQUIP_ELEC, NOM_APP_ELEC : POURCENTAGE_RECYCLE_APP_ELEC}
-dict_rendement_recyclage = {NOM_VEHICULES : RENDEMENT_RECYCLE_VEHICULES, NOM_BAT : RENDEMENT_RECYCLE_BAT, NOM_EQUIP_ELEC : RENDEMENT_RECYCLE_EQUI_ELEC, NOM_APP_ELEC : RENDEMENT_RECYCLE_APP_ELEC}
+dict_lignes_gorec = {NOM_VEHICULES : LIGNE_GOREC_VEHICULES,
+                            NOM_BAT : LIGNE_GOREC_BAT,
+                            NOM_EQUIP_ELEC : LIGNE_GOREC_EQUIP_ELEC, 
+                            NOM_APP_ELEC : LIGNE_GOREC_APP_ELEC}
 
-dict_temps = {NOM_VEHICULES : TEMPS_VEHICULES, NOM_BAT : TEMPS_BAT, NOM_EQUIP_ELEC : TEMPS_EQUIP_ELEC, NOM_APP_ELEC : TEMPS_APP_ELEC}
+dict_portion_recyclee = {NOM_VEHICULES : POURCENTAGE_RECYCLE_VEHICULES,
+                            NOM_BAT : POURCENTAGE_RECYCLE_BAT,
+                            NOM_EQUIP_ELEC : POURCENTAGE_RECYCLE_EQUIP_ELEC, 
+                            NOM_APP_ELEC : POURCENTAGE_RECYCLE_APP_ELEC}
+
+dict_lignes_gainedrec = {NOM_VEHICULES : LIGNE_GAINED_REC_VEHICULES,
+                            NOM_BAT : LIGNE_GAINED_REC_BAT,
+                            NOM_EQUIP_ELEC : LIGNE_GAINED_REC_EQUIP_ELEC, 
+                            NOM_APP_ELEC : LIGNE_GAINED_REC_APP_ELEC}
+
+dict_rendement_recyclage = {NOM_VEHICULES : RENDEMENT_RECYCLE_VEHICULES,
+                            NOM_BAT : RENDEMENT_RECYCLE_BAT,
+                            NOM_EQUIP_ELEC : RENDEMENT_RECYCLE_EQUI_ELEC,
+                            NOM_APP_ELEC : RENDEMENT_RECYCLE_APP_ELEC}
+
+
+dict_temps = {NOM_VEHICULES : TEMPS_VEHICULES,
+                            NOM_BAT : TEMPS_BAT,
+                            NOM_EQUIP_ELEC : TEMPS_EQUIP_ELEC,
+                            NOM_APP_ELEC : TEMPS_APP_ELEC}
 
 '''TABLEAU
 Enregistre toutes les données, année après années.
 Système d'accès au tableau :
 - l'indice de colonne correspond à année courante - année de départ
 - la colonne correspond à la donnée intéressante suivant le code des constantes
-
 '''
 
-resultats = np.zeros( (NB_DONNEES, NB_ANNEES) )
+resultats = np.zeros( (NB_LIGNES, NB_ANNEES) )
 
 # Traçage des résultats :
 
@@ -99,7 +140,7 @@ def tracer_resultats(tableau):
     """Trace un tableau numpy correspondant aux résultats de la simulation"""
     plt.close()
 
-    for no_donnee in range(NB_DONNEES):
+    for no_donnee in range(NB_LIGNES):
         plt.plot(tableau[no_donnee,:],RANGE_ANNEES) # manque un label
         plt.figure()
 
@@ -110,7 +151,7 @@ def tracer_resultats(tableau):
 # getConsoTotale
 
 def getConsoCategorie(no_annee, categorie):
-    return resultats[dict_categories_conso[categorie], no_annee]
+    return resultats[dict_lignes_conso[categorie], no_annee]
 
 def getConsoTotale(no_annee):
     # return getConsoVehicules(no_annee) + getConsoBat(no_annee) + getConsoEquipElec(no_annee) + getConsoAppElec(no_annee)
@@ -155,7 +196,7 @@ def getBesoin(no_annee):
 
 
 def getStockCategorie(no_annee, categorie):
-    return resultats[dict_categories_stock[categorie], no_annee]
+    return resultats[dict_lignes_stock[categorie], no_annee]
 
 def getStock(no_annee): 
     # return getStockVehicules(no_annee) + getStockBat(no_annee) + getStockEquipElec(no_annee) + getStockAppElec(no_annee)
@@ -169,7 +210,7 @@ def getStock(no_annee):
 '''
 # getSortieStock
 def getSortieStockCategorie(no_annee, categorie):
-    return resultats[dict_categories_stock[categorie], no_annee - dict_temps[categorie]]
+    return resultats[dict_lignes_stock[categorie], no_annee - dict_temps[categorie]]
 
 def getSortieStock(no_annee):
     # return getSortieStockVehicules(no_annee) + getSortieStockBat(no_annee) + getSortieStockEquipElec(no_annee) + getSortieStockAppElec(no_annee)
@@ -202,17 +243,56 @@ def calculerStockAnneeSuivante(no_annee):
     Retourne une colonne avec des données situées aux lignes des stocks 
     et des 0 autre part (comme ça il suffit de le sommer)
 
-    TODO pour dispatcher selon quel type d'objet est dans le stock
+    Ne nécessite aucune donnée sur l'année suivante (basé uniquement sur les années no_annee et avant)
     '''
-    stock_prec = np.zeros( (NB_DONNEES) )
+    stock_prec = np.zeros( (NB_LIGNES) )
 
     for cat in liste_categories :
-        stock_prec[dict_categories_stock[cat]] =  getStockCategorie(no_annee, cat)
-        stock_prec[dict_categories_stock[cat]] += getConsoCategorie(no_annee, cat)
-        stock_prec[dict_categories_stock[cat]] -= getSortieStockCategorie(no_annee, cat)
+        stock_prec[dict_lignes_stock[cat]] =  getStockCategorie(no_annee, cat)
+        stock_prec[dict_lignes_stock[cat]] += getConsoCategorie(no_annee, cat)
+        stock_prec[dict_lignes_stock[cat]] -= getSortieStockCategorie(no_annee, cat)
 
 
     return stock_prec
+
+
+def calculerSortieStock(no_annee):
+    '''Donne les données de ce qui sort du stock par catégorie de cette année. Ne modifie pas le tableau
+    Concrètement:
+    - donne ce qui part du stock par catégorie
+
+    Retourne une colonne avec des données situées aux lignes correspondantes
+
+    Ne nécessite aucune donnée sur l'année en cours (basé uniquement sur les années no_annee - 1 et avant)
+    '''
+    sortie_stock = np.zeros( (NB_LIGNES) )
+
+    for cat in liste_categories:
+        sortie_stock[dict_lignes_sortie_stock[cat]] = getSortieStockCategorie(no_annee, cat)
+
+    return sortie_stock
+    
+
+
+def calculerRecyclage(no_annee):
+    '''Donne les données du recyclage fait à l'année N. Ne modifie pas le tableau.
+    Concrètement:
+    - donne ce qui part au recyclage par catégorie (facteurs d'abandon)
+    - donne ce qui est obtenu effectivement par recyclage, par catégorie (rendement)
+
+    Retourne une colonne avec des données situées aux lignes correspondantes
+
+    Nécessite les données sur ce qui sort du stock de l'année en cours
+    '''
+
+    recyclage = np.zeros( (NB_LIGNES) )
+
+    for cat in liste_categories:
+        recyclage[dict_lignes_gorec[cat]] = getRecyclageSecondaireCategorie(no_annee, cat)
+        recyclage[dict_lignes_gainedrec[cat]] = getObtenuRecyclageSecondaireCategorie(no_annee, cat)
+
+    return recyclage
+
 
 
 # Les fonctions qui construisent l'année suivante
@@ -223,13 +303,15 @@ def doAnneeSuivante(no_annee):
 
     Modifie le tableau !
     '''
-    # global annee_actuelle
-    global resultats
-    #TODO à compléter avec les autres listes à mettre à jour aussi
-    colonne_stock = calculerStockAnneeSuivante(no_annee)
-    resultats[0:NB_DONNEES, no_annee]+=colonne_stock
 
-    # annee_actuelle+=1
+    global resultats
+
+    colonne_stock = calculerStockAnneeSuivante(no_annee)
+    resultats[0:NB_LIGNES, no_annee]+=colonne_stock
+    colonne_sortie_stock = calculerSortieStock(no_annee + 1)
+    resultats[0:NB_LIGNES, no_annee]+=colonne_sortie_stock
+    colonnes_recyclage_sec = calculerRecyclage(no_annee + 1)
+    resultats[0:NB_LIGNES, no_annee]+=colonnes_recyclage_sec
 
 
 # Les fonctions avant de lancer la simulation
