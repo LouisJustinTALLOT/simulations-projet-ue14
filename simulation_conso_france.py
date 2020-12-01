@@ -159,7 +159,7 @@ def getConsoTotale(no_annee):
     return sum([getConsoCategorie(no_annee, cat) for cat in liste_categories])
 
 def getLignesConso():
-    return resultats[0:NB_CAT,0:NB_ANNEES]
+    return resultats[0:NB_CAT,:]
 
 
 # getPerduProductionTotal
@@ -329,9 +329,9 @@ def initialiser(): #TODO
     '''
     # A FAIRE : on établit la ligne de consommations
 
-    resultats[LIGNE_PERDU_PROD_RAFF] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO
-    resultats[LIGNE_PERDU_PROD_SEMI_FINISHED] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO
-    resultats[LIGNE_RECYCLAGE_PRIMAIRE] = getLignesConso().sum(axis=-2)*POURCENTAGE_NEW_WASTE_RAPP_CONSO
+    resultats[LIGNE_PERDU_PROD_RAFF,:] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO
+    resultats[LIGNE_PERDU_PROD_SEMI_FINISHED,:] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO
+    resultats[LIGNE_RECYCLAGE_PRIMAIRE,:] = getLignesConso().sum(axis=-2)*POURCENTAGE_NEW_WASTE_RAPP_CONSO
 
 
 # Programme principal
