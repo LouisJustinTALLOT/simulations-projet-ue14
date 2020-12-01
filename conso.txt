@@ -1,0 +1,41 @@
+Equipements électroménagers:
+ - 1% de cuivre dans une machine à laver
+ - 75 kg : poids d'une machine à laver
+ - donc 0,75 kg de cuivre dans une machine à laver
+ - 2,7 millions de ventes par an
+donc 2 000 tonnes de cuivre consommée par année dans un lave-linge
+Pour tous les autres électroménagers, on fait *10. D'où
+
+=== 20 000 tonnes de cuivre consommées par année dans les équip. elec===
++2% par an
+
+Appareils électroniques:
+ - 10% de cuivre dans un ordi ou téléphones
+ - poids d'un tel : 200g
+ - poids d'un ordi : 3kg
+ - cuivre dans un tel : 20g
+ - cuivre dans un ordi : 0,3 kg
+ - 20 millions de tels vendus par an
+ - 5 millions d'ordis vendus par an
+ === 2 500 tonnes de cuivre consommées par an dans les appareils electroniques===
+ +0% par an
+
+
+Batiments :
+ - 1 km de tuyaux de cuivre dans une maison
+ - 500 g / m par tuyau de cuivre
+ - donc 500 kg de cuivre dans une maison
+ - 200 000 maisons construites par an
+
+=== 100 000 tonnes de cuivre consommées par année dans les batiments===
++2% par an
+
+
+Véhicules :
+ - 25 kg de cuivre dans une voiture
+ - 2 millions de voitures par an
+ - 500 kg de cuivre dans un gros trucs (camion/bateau/etc).
+ - 500 000 gros trucs par an
+
+ === 200 000 tonnes de cuivre consommées par année dans les véhicules ===
+ +2%
