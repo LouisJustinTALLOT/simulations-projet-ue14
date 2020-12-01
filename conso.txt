@@ -9,6 +9,13 @@ Pour tous les autres électroménagers, on fait *10. D'où
 === 20 000 tonnes de cuivre consommées par année dans les équip. elec===
 +2% par an
 
+
+30 millions de machines à laver en France en 2020
+donc 22 500 tonnes de cuivre pour les machines à laver. On fait *10:
+=== 225 000 tonnes de cuivre en 2020 dans le stock en circulation ===
+
+
+
 Appareils électroniques:
  - 10% de cuivre dans un ordi ou téléphones
  - poids d'un tel : 200g
@@ -20,15 +27,22 @@ Appareils électroniques:
  === 2 500 tonnes de cuivre consommées par an dans les appareils electroniques===
  +0% par an
 
+ Il y a 50 millions de smartphones en 2020
+ Il y a 30 millions d'ordinateurs en 2020
+ === 10 000 tonnes de cuivre en 2020 dans le stock en circulation ===
+
 
 Batiments :
  - 1 km de tuyaux de cuivre dans une maison
  - 500 g / m par tuyau de cuivre
  - donc 500 kg de cuivre dans une maison
- - 200 000 maisons construites par an
+ - 400 000 maisons construites par an
 
-=== 100 000 tonnes de cuivre consommées par année dans les batiments===
+=== 200 000 tonnes de cuivre consommées par année dans les batiments===
 +2% par an
+
+En France il y a 40 millions de logements en 2020
+=== 20 000 000 tonnes de cuivre dans le stock en circulation ===
 
 
 Véhicules :
@@ -39,3 +53,7 @@ Véhicules :
 
  === 200 000 tonnes de cuivre consommées par année dans les véhicules ===
  +2%
+
+
+ En France il y a 40 000 000 véhicules, donc :
+ === 1 000 000 tonnes de cuivre dans le stock en circulation ===
