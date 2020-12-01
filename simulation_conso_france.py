@@ -214,7 +214,8 @@ def getSortieStockCategorie(no_annee, categorie):
     try:
         return resultats[dict_lignes_stock[categorie], no_annee - dict_temps[categorie]]
     except:
-        return 0.1 * resultats[dict_lignes_stock[categorie], no_annee ] # mettre une valeur typique
+        # return 0.1 * resultats[dict_lignes_stock[categorie], no_annee ] # mettre une valeur typique
+        return np.random.rand()        
 
 def getSortieStock(no_annee):
     # return getSortieStockVehicules(no_annee) + getSortieStockBat(no_annee) + getSortieStockEquipElec(no_annee) + getSortieStockAppElec(no_annee)
@@ -329,10 +330,23 @@ def initialiser(): #TODO
     '''
     # A FAIRE : on établit la ligne de consommations
 
+    for cat in liste_categories:
+        # resultats[dict_lignes_stock[cat],0] = np.random.rand()
+        resultats[dict_lignes_conso[cat],0] = np.random.rand()
+        # resultats[dict_lignes_gorec[cat],0] = np.random.rand()
+        # resultats[dict_lignes_sortie_stock[cat],0] = np.random.rand()
+    
+    print(getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO)
     resultats[LIGNE_PERDU_PROD_RAFF,:] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_RAFFINEMENT_RAPP_CONSO
+    print(resultats)
     resultats[LIGNE_PERDU_PROD_SEMI_FINISHED,:] = getLignesConso().sum(axis=-2)*POURCENTAGE_PERDU_DEF_SEMI_FINISHED_RAPP_CONSO
     resultats[LIGNE_RECYCLAGE_PRIMAIRE,:] = getLignesConso().sum(axis=-2)*POURCENTAGE_NEW_WASTE_RAPP_CONSO
 
+
+    # for i in range(len(resultats)):
+    #     print(resultats[i])
+    # print(resultats[:,0])
+    input()
 
 # Programme principal
 
@@ -342,6 +356,11 @@ def simul():
     for a in range(NB_ANNEES):
         doAnneeSuivante(a)
     #TODO
+    print("##################################################################")
+    for i in range(len(resultats)):
+        print(resultats[i])
     tracer_resultats(resultats)
+    input()
+    plt.close(fig='all')
 
 simul()
