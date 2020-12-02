@@ -72,7 +72,8 @@ def r(n):
         return dico_r[n]
     
     res = np.dot(RR(n),np.dot(PR(n),np.dot(SS(n), s(n))))
-    dico_r[n] = res
+
+    dico_r[n] = res # pour la mémoïsation
     return res
 
 def c(n):
