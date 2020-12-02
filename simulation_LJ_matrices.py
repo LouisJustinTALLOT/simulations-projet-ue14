@@ -114,7 +114,7 @@ def s(n):
 
 
 def obtenu_recyclage(n):
-    pass
+    return somme_vecteur(r(n))
 
 def conso_totale(n):
     pass
