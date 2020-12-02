@@ -28,3 +28,13 @@ c(n) = CA(n) * CA(n-1)
 s(n+1) - s(n) = c(n) - SS(n) * s(n)
 
 """
+
+NB_CATEGORIES = 4
+
+SS_0 = np.diag([...])
+TP_0 = np.diag([...])
+PR_0 = np.diag([...])
+RR_0 = np.diag([...])
+CA_0 = np.diag([...])
+
+lu = np.ones((NB_CATEGORIES))
