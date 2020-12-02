@@ -68,7 +68,12 @@ def CA(n):
     return CA_0
 
 def r(n):
-    pass
+    if n in dico_r:
+        return dico_r[n]
+    
+    res = np.dot(RR(n),np.dot(PR(n),np.dot(SS(n), s(n))))
+    dico_r[n] = res
+    return res
 
 def c(n):
     pass
