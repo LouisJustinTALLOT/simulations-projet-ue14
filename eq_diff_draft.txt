@@ -1,0 +1,18 @@
+
+
+def f(t, x):
+    '''
+    Renvoie dx/dt(t)
+    '''
+
+    resultat = np.array([])
+    tau_fin_de_vie = 1
+
+    #Ligne d'évolution du stock de cuivre dans les maisons
+    resultat[...] = - 1/(tau_fin_de_vie) * x[...] + (qté_de_cuivre_consommée_par_an)
+
+def resolv():
+    ci = np.array( [...])
+    t = np.linspace(...)
+
+    y = odeint(ci, t, f)
