@@ -105,7 +105,12 @@ def c(n):
     return np.dot(CA(n), c(n-1))
 
 def s(n):
-    pass
+    """Ici l'expression de s(n) n'est pas dépendante du modèle"""
+
+    if n in dico_s:
+        return dico_s[n]
+    
+    return c(n) + np.dot((np.eye(NB_CATEGORIES)-SS(n-1)), s(n-1))
 
 
 def obtenu_recyclage(n):
