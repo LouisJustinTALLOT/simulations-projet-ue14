@@ -31,6 +31,9 @@ s(n+1) - s(n) = c(n) - SS(n) * s(n)
 
 NB_CATEGORIES = 4
 
+ANNEE_DEBUT = 2020
+ANNEE_FIN = 2050
+
 SS_0 = np.diag([...])
 TP_0 = np.diag([...])
 PR_0 = np.diag([...])
