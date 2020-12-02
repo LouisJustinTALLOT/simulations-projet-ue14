@@ -41,3 +41,27 @@ lu = np.ones((NB_CATEGORIES))
 
 def somme_vecteur(vec, ligne_unitaire = lu):
     return np.float(np.dot(lu, vec))
+
+def SS(n):
+    pass
+
+def TP(n):
+    pass
+
+def PR(n):
+    pass
+
+def RR(n):
+    pass
+
+def CA(n):
+    pass
+
+def r(n):
+    pass
+
+def c(n):
+    pass
+
+def s(n):
+    pass
