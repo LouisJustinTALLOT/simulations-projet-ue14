@@ -118,4 +118,7 @@ def obtenu_recyclage(n):
 
 def conso_totale(n):
     return somme_vecteur(c(n))
+
+
+def simulation(annee_fin):
     pass
