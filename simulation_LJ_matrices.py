@@ -55,7 +55,12 @@ def somme_vecteur(vec):
     return np.float(np.dot(lu, vec))
 
 def SS(n):
-    pass
+    """en premier modèle, c'est une fonction constante : 
+    dans toutes les catégories, une portion constante du stock devient "hors d'usage" 
+    et en sort pour partir en partie au recyclage
+    """
+
+    return SS_0
 
 def TP(n):
     """en premier modèle, c'est une fonction constante : 
