@@ -75,3 +75,10 @@ def c(n):
 
 def s(n):
     pass
+
+
+def obtenu_recyclage(n):
+    pass
+
+def conso_totale(n):
+    pass
