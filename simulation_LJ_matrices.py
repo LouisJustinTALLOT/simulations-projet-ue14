@@ -45,6 +45,12 @@ dico_c = {}
 dico_s = {}
 dico_r = {}
 
+# on initialise les dictionnaires
+
+dico_c[...] = ...
+dico_s[...] = ...
+dico_r[...] = ...
+
 def somme_vecteur(vec):
     return np.float(np.dot(lu, vec))
 
