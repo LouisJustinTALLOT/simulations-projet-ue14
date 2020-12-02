@@ -74,7 +74,10 @@ def PR(n):
     return PR_0
 
 def RR(n):
-    pass
+    """en premier modèle, c'est une fonction constante : 
+     dans toutes les catégories, on arrive à récupérer un taux constant de cuivre"""
+
+    return RR(0)
 
 def CA(n):
     """en tout premier modèle, c'est une fonction constante : 
