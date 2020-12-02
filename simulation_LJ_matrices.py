@@ -12,8 +12,8 @@ SS(n) la matrice diagonale représentant la quantité sortant du stock à l'ann�
 TP(n) qui représente le temps de résidence dans une catégorie du cuivre
 PR(n) la matrice diagonale représentant le pourcentage recylé de matériau sortant du stock
 RR(n) ... représentant le pourcentage du matériau recyclé qui est valorisé,
-          et pas perdu dans les opérations de recyclage
-CA(n) la consommation annuelle, en pourcentage de la consompmation de l'année précédente
+          et non perdu dans les opérations de recyclage
+CA(n) la consommation annuelle, en pourcentage de la consommation de l'année précédente
 
 obtenu_recyclage(n) la quantité obtenue de cuivre sur toutes les catégories, à l'année n
                     c'est la quantité qui nous intéresse, à comparer à 
