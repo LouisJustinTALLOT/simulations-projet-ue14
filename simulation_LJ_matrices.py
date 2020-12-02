@@ -39,6 +39,12 @@ CA_0 = np.diag([...])
 
 lu = np.ones((NB_CATEGORIES))
 
+# Trois dictionnaires pour la mémoïsation dans les fonctions récursives
+
+dico_c = {}
+dico_s = {}
+dico_r = {}
+
 def somme_vecteur(vec, ligne_unitaire = lu):
     return np.float(np.dot(lu, vec))
 
