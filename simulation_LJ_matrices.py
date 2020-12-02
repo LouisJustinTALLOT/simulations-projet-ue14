@@ -57,7 +57,9 @@ def RR(n):
     pass
 
 def CA(n):
-    pass
+    """en tout premier modèle, c'est une fonction constante : 
+    nous considérons la consommation constante dans toutes les catégories"""
+    return CA_0
 
 def r(n):
     pass
