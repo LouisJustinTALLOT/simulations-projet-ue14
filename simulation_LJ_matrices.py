@@ -94,7 +94,15 @@ def r(n):
     return res
 
 def c(n):
-    pass
+    """en premier modèle on considère que la consommation croît d'un
+    pourcentage constant tous les ans, donné par CA(n)
+
+    ce pourcentage pourra néanmoins augmenter avec les années
+    """
+    if n in dico_c:
+        return dico_c[n]
+
+    return np.dot(CA(n), c(n-1))
 
 def s(n):
     pass
