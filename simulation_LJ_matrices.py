@@ -46,7 +46,9 @@ def SS(n):
     pass
 
 def TP(n):
-    pass
+    """en premier modèle, c'est une fonction constante : 
+    le temps de passage est constant dans toutes les catégories"""
+    return TP_0
 
 def PR(n):
     pass
