@@ -68,7 +68,10 @@ def TP(n):
     return TP_0
 
 def PR(n):
-    pass
+    """en premier modèle, c'est une fonction constante : 
+    on recycle une portion constante des 'biens' "usagés" dans toutes les catégories"""
+
+    return PR_0
 
 def RR(n):
     pass
