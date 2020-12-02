@@ -38,3 +38,6 @@ RR_0 = np.diag([...])
 CA_0 = np.diag([...])
 
 lu = np.ones((NB_CATEGORIES))
+
+def somme_vecteur(vec, ligne_unitaire = lu):
+    return np.float(np.dot(lu, vec))
