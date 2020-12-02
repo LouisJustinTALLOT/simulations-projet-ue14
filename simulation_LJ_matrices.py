@@ -45,7 +45,7 @@ dico_c = {}
 dico_s = {}
 dico_r = {}
 
-def somme_vecteur(vec, ligne_unitaire = lu):
+def somme_vecteur(vec):
     return np.float(np.dot(lu, vec))
 
 def SS(n):
