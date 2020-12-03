@@ -134,3 +134,5 @@ def simulation(annee_fin = ANNEE_FIN):
     plt.plot(annees,np.vectorize(obtenu_recyclage)(annees))
     plt.plot(annees,np.vectorize(conso_totale)(annees))
     plt.show()
+
+simulation()
