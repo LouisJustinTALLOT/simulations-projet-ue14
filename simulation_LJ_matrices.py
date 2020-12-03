@@ -88,7 +88,7 @@ def RR(n):
     """en premier modèle, c'est une fonction constante : 
      dans toutes les catégories, on arrive à récupérer un taux constant de cuivre"""
 
-    return RR(0)
+    return RR_0
 
 def CA(n):
     """en tout premier modèle, c'est une fonction constante : 
