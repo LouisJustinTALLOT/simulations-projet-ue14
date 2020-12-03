@@ -125,5 +125,12 @@ def conso_totale(n):
     return somme_vecteur(c(n))
 
 
-def simulation(annee_fin):
-    pass
+def simulation(annee_fin = ANNEE_FIN):
+
+    for i in range(ANNEE_DEBUT, annee_fin+1):
+        s(i); r(i)
+    
+    annees = np.arange(ANNEE_DEBUT, annee_fin+1)
+    plt.plot(annees,np.vectorize(obtenu_recyclage)(annees))
+    plt.plot(annees,np.vectorize(conso_totale)(annees))
+    plt.show()
