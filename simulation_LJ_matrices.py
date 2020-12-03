@@ -24,7 +24,7 @@ lu = [1, ..., 1] vecteur ligne permettant de sommer sur les catégories
 Les équations sont les suivantes :
 
 r(n) = RR(n) * PR(n) * SS(n) * s(n)
-c(n) = CA(n) * CA(n-1)
+c(n) = CA(n) * c(n-1)
 s(n+1) - s(n) = c(n) - SS(n) * s(n)
 
 """
