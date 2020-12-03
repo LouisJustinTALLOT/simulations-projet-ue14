@@ -139,8 +139,12 @@ def simulation(annee_fin = ANNEE_FIN):
         s(i); r(i)
     
     annees = np.arange(ANNEE_DEBUT, annee_fin+1)
-    plt.plot(annees,np.vectorize(obtenu_recyclage)(annees))
-    plt.plot(annees,np.vectorize(conso_totale)(annees))
+    plt.plot(annees,np.vectorize(obtenu_recyclage)(annees), label='recyclé')
+    plt.plot(annees,np.vectorize(conso_totale)(annees), label = 'consommé')
+    plt.legend()
+    plt.xlabel('Temps en années')
+    plt.ylabel('Tonnes de cuivre')
+    plt.subplots_adjust(left=0.15, right=0.97, top = 0.95)
     plt.show()
 
 simulation()
