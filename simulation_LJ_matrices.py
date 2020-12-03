@@ -34,11 +34,15 @@ NB_CATEGORIES = 4
 ANNEE_DEBUT = 2020
 ANNEE_FIN = 2050
 
-SS_0 = np.diag([...])
+"""
+                0         1                   2                          3 
+        cat = Véhicules Batiments Equipements_electroménagers Appareils_électroniques
+"""
+SS_0 = np.diag([0.1,     0.001,           0.1,                        0.2])
 TP_0 = np.diag([...])
-PR_0 = np.diag([...])
-RR_0 = np.diag([...])
-CA_0 = np.diag([...])
+PR_0 = np.diag([0.9,     0.8,             0.5,                        0.4])
+RR_0 = np.diag([0.95,    0.95,            0.9,                        0.5])      
+CA_0 = np.diag([1.02,    1.02,            1.02,                       1.1])
 
 lu = np.ones((NB_CATEGORIES))
 
@@ -50,9 +54,13 @@ dico_r = {}
 
 # on initialise les dictionnaires
 
-dico_c[...] = ...
-dico_s[...] = ...
-dico_r[...] = ...
+"""
+                                 0         1                   2                          3 
+                        cat = Véhicules Batiments Equipements_electroménagers Appareils_électroniques
+"""
+dico_c[ANNEE_DEBUT] = np.array([200_000, 200_000,       20_000,                     2_500               ]).reshape((-1,1))
+dico_s[ANNEE_DEBUT] = np.array([1_000_000, 20_000_000,  225_000,                    10_000              ]).reshape((-1,1))
+# dico_r[ANNEE_DEBUT] = np.array([...]).reshape((-1,1))
 
 def somme_vecteur(vec):
     return np.float(np.dot(lu, vec))
