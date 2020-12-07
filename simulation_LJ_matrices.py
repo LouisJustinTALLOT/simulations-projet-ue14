@@ -80,9 +80,12 @@ def TP(n):
 
 def PR(n):
     """en premier modèle, c'est une fonction constante : 
-    on recycle une portion constante des 'biens' "usagés" dans toutes les catégories"""
-    if n-ANNEE_DEBUT <15:
-        return PR_0    
+    on recycle une portion constante des 'biens' "usagés" dans toutes les catégories
+    en deuxième modèle, on évolue de façon affine vers une bien meilleure portion de recyclage
+    """
+    if n-ANNEE_DEBUT <= 15:
+        return  np.diag([0.99,0.98,0.95,0.9]) + (15-(n-ANNEE_DEBUT))/15*np.diag([-0.09,-0.18,-0.45,-0.7])
+    
     return   np.diag([0.99,     0.98,             0.95,                        0.9])
 
 def RR(n):
