@@ -81,19 +81,25 @@ def TP(n):
 def PR(n):
     """en premier modèle, c'est une fonction constante : 
     on recycle une portion constante des 'biens' "usagés" dans toutes les catégories"""
-
-    return PR_0
+    if n-ANNEE_DEBUT <15:
+        return PR_0    
+    return   np.diag([0.99,     0.98,             0.95,                        0.9])
 
 def RR(n):
     """en premier modèle, c'est une fonction constante : 
      dans toutes les catégories, on arrive à récupérer un taux constant de cuivre"""
+    if n-ANNEE_DEBUT <25:
+        return RR_0
+    return np.diag([1.,    1.,            1.,                        0.8])      
 
-    return RR_0
 
 def CA(n):
     """en tout premier modèle, c'est une fonction constante : 
     nous considérons la consommation constante dans toutes les catégories"""
-    return CA_0
+    if n-ANNEE_DEBUT <15:
+        return CA_0
+    else:
+        return np.diag([1.02,    1.02,            1.02,                       1])
 
 def r(n):
     if n in dico_r:
