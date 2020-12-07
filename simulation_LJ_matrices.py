@@ -101,9 +101,11 @@ def RR(n):
 
 def CA(n):
     """en tout premier modèle, c'est une fonction constante : 
-    nous considérons la consommation constante dans toutes les catégories"""
-    if n-ANNEE_DEBUT <15:
-        return CA_0
+    nous considérons la consommation constante dans toutes les catégories
+    en deuxième modèle, no considère que la consommation a des limites...
+    """
+    if n-ANNEE_DEBUT <= 15:
+        return np.diag([1.02,1.02,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0,0,0.1])
     else:
         return np.diag([1.02,    1.02,            1.02,                       1])
 
