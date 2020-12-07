@@ -38,9 +38,9 @@ ANNEE_FIN = 2050
                 0         1                   2                          3 
         cat = Véhicules Batiments Equipements_electroménagers Appareils_électroniques
 """
-SS_0 = np.diag([0.1,     0.001,           0.1,                        0.2])
+SS_0 = np.diag([0.1,     0.005,            0.1,                        0.3])
 TP_0 = np.diag([...])
-PR_0 = np.diag([0.9,     0.8,             0.5,                        0.4])
+PR_0 = np.diag([0.9,     0.8,             0.5,                        0.2])
 RR_0 = np.diag([0.95,    0.95,            0.9,                        0.5])      
 CA_0 = np.diag([1.02,    1.02,            1.02,                       1.1])
 
