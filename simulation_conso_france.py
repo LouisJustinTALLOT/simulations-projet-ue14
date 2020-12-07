@@ -9,11 +9,10 @@ import matplotlib.pyplot as plt
      à l'aide notamment des données de l'année précédente
    - on ajoute au tableau les nouvelles données
    - on recommence
- - on plot les résultats joliment
-'''
+ - on plot les résultats joliment'''
 
 
-'''CONSTANTES'''
+#CONSTANTES
 
 ANNEE_DEBUT = 2018
 ANNEE_FIN = 2050
@@ -308,9 +307,7 @@ def doAnneeSuivante(no_annee):
 
     Modifie le tableau !
     '''
-
-    global resultats
-
+    
     colonne_stock = calculerStockAnneeSuivante(no_annee)
     resultats[0:NB_LIGNES, no_annee]+=colonne_stock
     colonne_sortie_stock = calculerSortieStock(no_annee + 1)
