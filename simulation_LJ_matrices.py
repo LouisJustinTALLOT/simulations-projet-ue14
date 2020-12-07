@@ -90,9 +90,12 @@ def PR(n):
 
 def RR(n):
     """en premier modèle, c'est une fonction constante : 
-     dans toutes les catégories, on arrive à récupérer un taux constant de cuivre"""
-    if n-ANNEE_DEBUT <25:
-        return RR_0
+     dans toutes les catégories, on arrive à récupérer un taux constant de cuivre
+     en deuxième modèle,on arrive à bien mieux recycler et donc perdre beaucoup moins
+     """
+    if n-ANNEE_DEBUT <= 25:
+        return np.diag([1.,1.,1.,0.8]) + (25-(n-ANNEE_DEBUT))/25*np.diag([-0.05,-0.05,-0.1,-0.3])
+
     return np.diag([1.,    1.,            1.,                        0.8])      
 
 
