@@ -352,7 +352,7 @@ def simul():
     initialiser()
     for a in range(NB_ANNEES):
         doAnneeSuivante(a)
-    #TODO
+    
     print("##################################################################")
     for i in range(len(resultats)):
         print(resultats[i])
