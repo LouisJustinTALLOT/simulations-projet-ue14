@@ -106,8 +106,8 @@ def CA(n):
     """
     if n-ANNEE_DEBUT <= 15:
         return np.diag([1.02,1.02,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0,0,0.1])
-    else:
-        return np.diag([1.02,    1.02,            1.02,                       1])
+
+    return np.diag([1.02,    1.02,            1.02,                       1])
 
 def r(n):
     if n in dico_r:
