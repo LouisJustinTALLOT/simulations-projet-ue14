@@ -105,9 +105,9 @@ def CA(n):
     en deuxième modèle, no considère que la consommation a des limites...
     """
     if n-ANNEE_DEBUT <= 15:
-        return np.diag([1.02,1.02,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0,0,0.1])
+        return np.diag([1.02,1.0,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0.02,0,0.1])
 
-    return np.diag([1.02,    1.02,            1.02,                       1])
+    return np.diag([1.02,    1.,            1.02,                       1])
 
 def r(n):
     if n in dico_r:
