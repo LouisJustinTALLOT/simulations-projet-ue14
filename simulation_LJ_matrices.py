@@ -156,9 +156,6 @@ def simulation(annee_fin = ANNEE_FIN, sup=False):
 
     global superposition 
     superposition = sup
-
-    for i in range(ANNEE_DEBUT, annee_fin+1):
-        s(i); r(i)
     
     annees = np.arange(ANNEE_DEBUT, annee_fin+1)
     plt.plot(annees,np.vectorize(obtenu_recyclage)(annees), label='recyclé pire')
