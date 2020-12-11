@@ -79,35 +79,35 @@ def TP(n):
     le temps de passage est constant dans toutes les catégories"""
     return TP_0
 
-def PR(n):
+def PR(n, sup = False):
     """en premier modèle, c'est une fonction constante : 
     on recycle une portion constante des 'biens' "usagés" dans toutes les catégories
     en deuxième modèle, on évolue de façon affine vers une bien meilleure portion de recyclage
     """
-    if not superposition :
+    if not sup :
         if n-ANNEE_DEBUT <= 15:
             return  np.diag([0.99,0.98,0.95,0.9]) + (15-(n-ANNEE_DEBUT))/15*np.diag([-0.09,-0.18,-0.45,-0.7])
         
         return   np.diag([0.99,     0.98,             0.95,                        0.9])
     return np.diag([0.9, 0.8, 0.5, 0.2])
-def RR(n):
+def RR(n, sup = False):
     """en premier modèle, c'est une fonction constante : 
      dans toutes les catégories, on arrive à récupérer un taux constant de cuivre
      en deuxième modèle,on arrive à bien mieux recycler et donc perdre beaucoup moins
      """
-    if not superposition :
+    if not sup :
         if n-ANNEE_DEBUT <= 25:
             return np.diag([1.,1.,1.,0.8]) + (25-(n-ANNEE_DEBUT))/25*np.diag([-0.05,-0.05,-0.1,-0.3])
 
         return np.diag([1.,    1.,            1.,                        0.8])      
     return np.diag([0.95, 0.95, 0.9, 0.5])
 
-def CA(n):
+def CA(n, sup = False):
     """en tout premier modèle, c'est une fonction constante : 
     nous considérons la consommation constante dans toutes les catégories
     en deuxième modèle, no considère que la consommation a des limites...
     """
-    if not superposition :
+    if not sup :
         if n-ANNEE_DEBUT <= 15:
             return np.diag([1.,1.0,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0.02,0,0.1])
 
