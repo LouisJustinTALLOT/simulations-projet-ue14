@@ -85,10 +85,10 @@ def PR(n):
     en deuxième modèle, on évolue de façon affine vers une bien meilleure portion de recyclage
     """
     if not superposition :
-    if n-ANNEE_DEBUT <= 15:
-        return  np.diag([0.99,0.98,0.95,0.9]) + (15-(n-ANNEE_DEBUT))/15*np.diag([-0.09,-0.18,-0.45,-0.7])
-    
-    return   np.diag([0.99,     0.98,             0.95,                        0.9])
+        if n-ANNEE_DEBUT <= 15:
+            return  np.diag([0.99,0.98,0.95,0.9]) + (15-(n-ANNEE_DEBUT))/15*np.diag([-0.09,-0.18,-0.45,-0.7])
+        
+        return   np.diag([0.99,     0.98,             0.95,                        0.9])
     return np.diag([0.9, 0.8, 0.5, 0.2])
 def RR(n):
     """en premier modèle, c'est une fonction constante : 
@@ -96,10 +96,10 @@ def RR(n):
      en deuxième modèle,on arrive à bien mieux recycler et donc perdre beaucoup moins
      """
     if not superposition :
-    if n-ANNEE_DEBUT <= 25:
-        return np.diag([1.,1.,1.,0.8]) + (25-(n-ANNEE_DEBUT))/25*np.diag([-0.05,-0.05,-0.1,-0.3])
+        if n-ANNEE_DEBUT <= 25:
+            return np.diag([1.,1.,1.,0.8]) + (25-(n-ANNEE_DEBUT))/25*np.diag([-0.05,-0.05,-0.1,-0.3])
 
-    return np.diag([1.,    1.,            1.,                        0.8])      
+        return np.diag([1.,    1.,            1.,                        0.8])      
     return np.diag([0.95, 0.95, 0.9, 0.5])
 
 def CA(n):
@@ -108,10 +108,10 @@ def CA(n):
     en deuxième modèle, no considère que la consommation a des limites...
     """
     if not superposition :
-    if n-ANNEE_DEBUT <= 15:
-        return np.diag([1.,1.0,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0.02,0,0.1])
+        if n-ANNEE_DEBUT <= 15:
+            return np.diag([1.,1.0,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0.02,0,0.1])
 
-    return np.diag([1.,    1.,            1.02,                       1])
+        return np.diag([1.,    1.,            1.02,                       1])
     return np.diag([1., 1.02, 1.02, 1.05])
 
 def r(n):
