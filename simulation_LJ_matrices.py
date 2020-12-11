@@ -61,6 +61,8 @@ dico_c[ANNEE_DEBUT] = np.array([200_000, 200_000,       20_000,                 
 dico_s[ANNEE_DEBUT] = np.array([1_000_000, 20_000_000,  225_000,                    10_000              ]).reshape((-1,1))
 # dico_r[ANNEE_DEBUT] = np.array([...]).reshape((-1,1))
 
+superposition = False
+
 def somme_vecteur(vec):
     return np.float(np.dot(lu, vec))
 
@@ -148,6 +150,7 @@ def conso_totale(n):
 
 def simulation(annee_fin = ANNEE_FIN):
 
+    global superposition 
     for i in range(ANNEE_DEBUT, annee_fin+1):
         s(i); r(i)
     
