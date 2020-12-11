@@ -40,9 +40,9 @@ ANNEE_FIN = 2050
 """
 SS_0 = np.diag([0.1,     0.005,            0.1,                        0.3])
 TP_0 = np.diag([...])
-PR_0 = np.diag([0.9,     0.8,             0.5,                        0.2])
-RR_0 = np.diag([0.95,    0.95,            0.9,                        0.5])      
-CA_0 = np.diag([1.02,    1.02,            1.02,                       1.1])
+PR_0 = np.diag([0.9,       0.8,              0.5,                        0.2])
+RR_0 = np.diag([0.95,     0.95,             0.9,                        0.5])      
+CA_0 = np.diag([1,        1.02,            1.01,                        1.1])
 
 lu = np.ones((NB_CATEGORIES))
 
@@ -105,9 +105,9 @@ def CA(n):
     en deuxième modèle, no considère que la consommation a des limites...
     """
     if n-ANNEE_DEBUT <= 15:
-        return np.diag([1.02,1.0,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0.02,0,0.1])
+        return np.diag([1.,1.0,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0.02,0,0.1])
 
-    return np.diag([1.02,    1.,            1.02,                       1])
+    return np.diag([1.,    1.,            1.02,                       1])
 
 def r(n):
     if n in dico_r:
