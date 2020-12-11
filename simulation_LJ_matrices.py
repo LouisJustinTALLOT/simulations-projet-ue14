@@ -167,6 +167,15 @@ def simulation(annee_fin = ANNEE_FIN, sup=False):
 
     if superposition :
         superposition = False
+        global dico_c
+        global dico_r
+        global dico_s
+        dico_c = {}
+        dico_s = {}
+        dico_r = {}
+        dico_c[ANNEE_DEBUT] = np.array([200_000, 200_000,       20_000,2_500]).reshape((-1,1))
+        dico_s[ANNEE_DEBUT] = np.array([1_000_000, 20_000_000,  225_000,10_000]).reshape((-1,1))
+
         plt.plot(annees,np.vectorize(obtenu_recyclage)(annees), label='recyclé meilleur')
         plt.plot(annees,np.vectorize(conso_totale)(annees), label = 'consommé meilleur')
 
