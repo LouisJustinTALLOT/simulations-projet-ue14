@@ -148,9 +148,11 @@ def conso_totale(n):
     return somme_vecteur(c(n))
 
 
-def simulation(annee_fin = ANNEE_FIN):
+def simulation(annee_fin = ANNEE_FIN, sup=False):
 
     global superposition 
+    superposition = sup
+
     for i in range(ANNEE_DEBUT, annee_fin+1):
         s(i); r(i)
     
@@ -164,4 +166,4 @@ def simulation(annee_fin = ANNEE_FIN):
     plt.subplots_adjust(left=0.14, right=0.96, top = 0.92)
     plt.show()
 
-simulation()
+simulation(sup=True)
