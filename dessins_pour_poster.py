@@ -27,3 +27,12 @@ plt.bar(["Véhicules", "Bâtiments", "Equipements\nélectroménagers", "Appareil
 plt.xticks(rotation=45)
 # plt.show()
 
+## troisième dessin : la consommation
+
+# plt.figure()
+plt.bar(["Véhicules", "Bâtiments", "Equipements\nélectroménagers", "Appareils\nélectroniques" ],
+        liste_conso)
+plt.xticks(rotation=45)
+
+# plt.yscale('log')
+plt.show()
