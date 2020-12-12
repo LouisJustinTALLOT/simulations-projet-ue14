@@ -17,3 +17,13 @@ plt.bar(["Véhicules", "Bâtiments", "Equipements\nélectroménagers", "Appareil
         liste_ages)
 plt.xticks(rotation=45)
 # plt.show()
+
+
+## deuxième dessin : les stocks
+
+plt.figure()
+plt.bar(["Véhicules", "Bâtiments", "Equipements\nélectroménagers", "Appareils\nélectroniques" ],
+        liste_stocks)
+plt.xticks(rotation=45)
+# plt.show()
+
