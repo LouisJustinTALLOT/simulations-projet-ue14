@@ -154,6 +154,8 @@ def conso_totale(n, sup_r = False, sup_c = False):
 
 
 def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
+    annees = np.arange(ANNEE_DEBUT, annee_fin+1)
+    fig,ax = plt.subplots()
 
     for i in range(4):
         sup_r, sup_c = possibilités[i]
@@ -182,11 +184,12 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
 
 
 
+    plt.suptitle("Simulation numérique de la consommation et du recyclage annuel en cuivre")
 
     plt.legend()
     plt.xlabel('Temps en années')
     plt.ylabel('Tonnes de cuivre')
-    plt.subplots_adjust(left=0.14, right=0.96, top = 0.92)
+    plt.subplots_adjust(left=0.164, right=0.96, top = 0.92)
     plt.show()
 
 simulation(sup_r = True, sup_c = True)
