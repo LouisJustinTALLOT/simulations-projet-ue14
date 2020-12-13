@@ -1,6 +1,7 @@
 import numpy as np  
 import matplotlib.pyplot as plt
-
+from mpl_finance import candlestick_ohlc
+import mplfinance as mpf
 
 """ On a le modèle suivant :
 c(n) le vecteur consommation à l'année n
