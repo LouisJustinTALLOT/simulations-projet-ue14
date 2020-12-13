@@ -163,13 +163,6 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
     for i in range(4):
         sup_r, sup_c = possibilités[i]
     
-    annees = np.arange(ANNEE_DEBUT, annee_fin+1)
-    plt.plot(annees,np.vectorize(obtenu_recyclage)(annees), label='recyclé pire')
-    plt.plot(annees,np.vectorize(conso_totale)(annees), label = 'consommé pire')
-    plt.suptitle("Simulation numérique de la consommation et du recyclage annuel en cuivre")
-
-    if superposition :
-        superposition = False
         global dico_c
         global dico_r
         global dico_s
