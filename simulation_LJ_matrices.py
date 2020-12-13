@@ -155,11 +155,8 @@ def conso_totale(n, sup_r = False, sup_c = False):
 
 def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
 
-    global superposition 
-    superposition = sup
-
-    for i in range(ANNEE_DEBUT, annee_fin+1):
-        s(i); r(i)
+    for i in range(4):
+        sup_r, sup_c = possibilités[i]
     
     annees = np.arange(ANNEE_DEBUT, annee_fin+1)
     plt.plot(annees,np.vectorize(obtenu_recyclage)(annees), label='recyclé pire')
@@ -177,8 +174,14 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
         dico_c[ANNEE_DEBUT] = np.array([200_000, 200_000,       20_000,2_500]).reshape((-1,1))
         dico_s[ANNEE_DEBUT] = np.array([1_000_000, 20_000_000,  225_000,10_000]).reshape((-1,1))
 
-        plt.plot(annees,np.vectorize(obtenu_recyclage)(annees), label='recyclé meilleur')
-        plt.plot(annees,np.vectorize(conso_totale)(annees), label = 'consommé meilleur')
+        # plt.plot(annees,np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c), label='recyclé '+ dico_label[sup_r]+' '+ str(i))
+        # if i < 2:
+        #     plt.plot(annees,np.vectorize(conso_totale)(annees, sup_r, sup_c), label = 'consommé '+ dico_label[sup_c] )
+        # plt.plot(annees, np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c), label=str(i))
+        candlestick_ohlc(ax,np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c))
+
+
+
 
     plt.legend()
     plt.xlabel('Temps en années')
