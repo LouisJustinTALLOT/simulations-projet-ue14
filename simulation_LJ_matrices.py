@@ -176,8 +176,12 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
         # if i < 2:
         #     plt.plot(annees,np.vectorize(conso_totale)(annees, sup_r, sup_c), label = 'consommé '+ dico_label[sup_c] )
         # plt.plot(annees, np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c), label=str(i))
-        candlestick_ohlc(ax,np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c))
+        recycl = np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)
+        consom = np.vectorize(conso_totale)(annees, sup_r, sup_c)
+        res = (consom-recycl)/consom
 
+        plt.plot(annees, res,label='recyclé '+ dico_label[sup_r]+' '+'consommé '+ dico_label[sup_c])
+        ax.fill_between(annees, res,alpha=0.5)
 
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1))
 
@@ -187,7 +191,7 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
     plt.xlabel('Temps en années')
     plt.ylabel('Tonnes de cuivre')
     plt.subplots_adjust(left=0.164, right=0.96, top = 0.92)
-    # plt.ylim(top=0)
+    plt.ylim(bottom=0)
     plt.show()
 
 simulation(sup_r = True, sup_c = True)
