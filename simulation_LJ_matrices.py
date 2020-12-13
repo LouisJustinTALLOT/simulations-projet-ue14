@@ -1,7 +1,6 @@
 import numpy as np  
 import matplotlib.pyplot as plt
-from mpl_finance import candlestick_ohlc
-import mplfinance as mpf
+import matplotlib.ticker as mtick
 
 """ On a le modèle suivant :
 c(n) le vecteur consommation à l'année n
@@ -180,6 +179,7 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
         candlestick_ohlc(ax,np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c))
 
 
+    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1))
 
     plt.suptitle("Simulation numérique de la consommation et du recyclage annuel en cuivre")
 
