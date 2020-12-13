@@ -154,8 +154,11 @@ def conso_totale(n, sup_r = False, sup_c = False):
 
 
 def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
+    possibilités = [(True, True), (True, False), (False, True), (False, False)]
     annees = np.arange(ANNEE_DEBUT, annee_fin+1)
     fig,ax = plt.subplots()
+    sup_c = sup_r = True
+    dico_label = {True : 'pire', False : 'meilleur'}
 
     for i in range(4):
         sup_r, sup_c = possibilités[i]
