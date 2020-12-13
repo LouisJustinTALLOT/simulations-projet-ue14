@@ -193,6 +193,7 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
     plt.xlabel('Temps en années')
     plt.ylabel('Tonnes de cuivre')
     plt.subplots_adjust(left=0.164, right=0.96, top = 0.92)
+    # plt.ylim(top=0)
     plt.show()
 
 simulation(sup_r = True, sup_c = True)
