@@ -66,7 +66,7 @@ superposition = False
 def somme_vecteur(vec):
     return np.float(np.dot(lu, vec))
 
-def SS(n):
+def SS(n, sup_r = False, sup_c = False):
     """en premier modèle, c'est une fonction constante : 
     dans toutes les catégories, une portion constante du stock devient "hors d'usage" 
     et en sort pour partir en partie au recyclage
@@ -79,51 +79,52 @@ def TP(n):
     le temps de passage est constant dans toutes les catégories"""
     return TP_0
 
-def PR(n, sup = False):
+def PR(n, sup_r = False, sup_c = False):
     """en premier modèle, c'est une fonction constante : 
     on recycle une portion constante des 'biens' "usagés" dans toutes les catégories
     en deuxième modèle, on évolue de façon affine vers une bien meilleure portion de recyclage
     """
-    if not sup :
+    if not sup_r :
         if n-ANNEE_DEBUT <= 15:
             return  np.diag([0.99,0.98,0.95,0.9]) + (15-(n-ANNEE_DEBUT))/15*np.diag([-0.09,-0.18,-0.45,-0.7])
         
         return   np.diag([0.99,     0.98,             0.95,                        0.9])
     return np.diag([0.9, 0.8, 0.5, 0.2])
-def RR(n, sup = False):
+
+def RR(n, sup_r = False, sup_c = False):
     """en premier modèle, c'est une fonction constante : 
      dans toutes les catégories, on arrive à récupérer un taux constant de cuivre
      en deuxième modèle,on arrive à bien mieux recycler et donc perdre beaucoup moins
      """
-    if not sup :
+    if not sup_r :
         if n-ANNEE_DEBUT <= 25:
             return np.diag([1.,1.,1.,0.8]) + (25-(n-ANNEE_DEBUT))/25*np.diag([-0.05,-0.05,-0.1,-0.3])
 
         return np.diag([1.,    1.,            1.,                        0.8])      
     return np.diag([0.95, 0.95, 0.9, 0.5])
 
-def CA(n, sup = False):
+def CA(n, sup_r = False, sup_c = False):
     """en tout premier modèle, c'est une fonction constante : 
     nous considérons la consommation constante dans toutes les catégories
     en deuxième modèle, no considère que la consommation a des limites...
     """
-    if not sup :
+    if not sup_c :
         if n-ANNEE_DEBUT <= 15:
             return np.diag([1.,1.0,1.02,1.0]) + (15-(n-ANNEE_DEBUT))/15*np.diag([0,0.02,0,0.1])
 
         return np.diag([1.,    1.,            1.02,                       1])
     return np.diag([1., 1.02, 1.02, 1.05])
 
-def r(n):
+def r(n, sup_r = False, sup_c = False):
     if n in dico_r:
         return dico_r[n]
     
-    res = np.dot(RR(n),np.dot(PR(n),np.dot(SS(n), s(n))))
+    res = np.dot(RR(n, sup_r, sup_c),np.dot(PR(n, sup_r, sup_c),np.dot(SS(n, sup_r, sup_c), s(n, sup_r, sup_c))))
 
     dico_r[n] = res # pour la mémoïsation
     return res
 
-def c(n):
+def c(n, sup_r = False, sup_c = False):
     """en premier modèle on considère que la consommation croît d'un
     pourcentage constant tous les ans, donné par CA(n)
 
@@ -131,28 +132,28 @@ def c(n):
     """
     if n in dico_c:
         return dico_c[n]
-    res = np.dot(CA(n), c(n-1))
+    res = np.dot(CA(n, sup_r, sup_c), c(n-1, sup_r, sup_c))
     dico_c[n] = res
     return res
 
-def s(n):
+def s(n, sup_r = False, sup_c = False):
     """Ici l'expression de s(n) n'est pas dépendante du modèle"""
 
     if n in dico_s:
         return dico_s[n]
-    res = c(n) + np.dot((np.eye(NB_CATEGORIES)-SS(n-1)), s(n-1))
+    res = c(n,  sup_r, sup_c) + np.dot((np.eye(NB_CATEGORIES)-SS(n-1,  sup_r, sup_c)), s(n-1,  sup_r, sup_c))
     dico_s[n] = res
     return res
 
 
-def obtenu_recyclage(n):
-    return somme_vecteur(r(n))
+def obtenu_recyclage(n, sup_r = False, sup_c = False):
+    return somme_vecteur(r(n, sup_r, sup_c))
 
-def conso_totale(n):
-    return somme_vecteur(c(n))
+def conso_totale(n, sup_r = False, sup_c = False):
+    return somme_vecteur(c(n, sup_r, sup_c))
 
 
-def simulation(annee_fin = ANNEE_FIN, sup=False):
+def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
 
     global superposition 
     superposition = sup
@@ -185,4 +186,4 @@ def simulation(annee_fin = ANNEE_FIN, sup=False):
     plt.subplots_adjust(left=0.14, right=0.96, top = 0.92)
     plt.show()
 
-simulation(sup=True)
+simulation(sup_r = True, sup_c = True)
