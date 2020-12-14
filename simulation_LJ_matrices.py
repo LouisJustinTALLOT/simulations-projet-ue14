@@ -159,6 +159,8 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
     fig,ax = plt.subplots()
     sup_c = sup_r = True
     dico_label = {True : 'pire', False : 'meilleur'}
+    dico_labels = {0 : "Consommation non raisonnée, peu de recyclage",
+                   3 : "Consommation limitée, recyclage important"}
     for i, valeur in enumerate(possibilités):
         if i == 0 or i == 3:
         sup_r, sup_c = possibilités[i]
@@ -180,18 +182,18 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
         consom = np.vectorize(conso_totale)(annees, sup_r, sup_c)
         res = (consom-recycl)/consom
 
-        plt.plot(annees, res,label='recyclé '+ dico_label[sup_r]+' '+'consommé '+ dico_label[sup_c])
-        ax.fill_between(annees, res,alpha=0.5)
+            plt.plot(annees, res,label=dico_labels[i], linewidth=2)
+            ax.fill_between(annees, res,alpha=0.1)
 
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1)) # on formate les nombres en pourcentages
 
-    plt.suptitle("Simulation numérique de la consommation et du recyclage annuel en cuivre")
+    plt.suptitle("Part de la consommation française de cuivre couverte par le recyclage")
 
     plt.legend()
     plt.xlabel('Temps en années')
-    plt.ylabel('Tonnes de cuivre')
-    plt.subplots_adjust(left=0.164, right=0.96, top = 0.92)
-    plt.ylim(bottom=0)
+    plt.ylabel('Pourcentage de la consommation totale en cuivre')
+    plt.subplots_adjust(left=0.12, right=0.96, top = 0.92)
+    plt.ylim(bottom=0, top=1)
     plt.show()
 
 simulation(sup_r = True, sup_c = True)
