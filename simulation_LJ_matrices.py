@@ -71,8 +71,13 @@ def SS(n, sup_r = False, sup_c = False):
     dans toutes les catégories, une portion constante du stock devient "hors d'usage" 
     et en sort pour partir en partie au recyclage
     """
+    # if not sup_c :
+    #     if n-ANNEE_DEBUT <= 25:
+    #         print(np.diag([0.05,0.005,0.05,0.1]) + (25-(n-ANNEE_DEBUT))/25*np.diag([0.05,0,0.05,0.2]))
+    #         return  np.diag([0.05,0.005,0.05,0.1]) + (25-(n-ANNEE_DEBUT))/25*np.diag([0.05,0,0.05,0.2])
 
-    return SS_0
+    #     return np.diag([0.05,0.005,0.05,0.1])
+    return np.diag([0.1,0.005,0.1,0.3])
 
 def TP(n):
     """en premier modèle, c'est une fonction constante : 
