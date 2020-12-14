@@ -183,14 +183,16 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
             res = 1 -( (consom-recycl)/consom)
 
             plt.plot(annees, res,label=dico_labels[i], linewidth=2)
-            ax.fill_between(annees, res,alpha=0.1)
+            ax.fill_between(annees, res,alpha=0.07)
 
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1)) # on formate les nombres en pourcentages
-
+    ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.1))
+    ax.yaxis.grid(True, which='both')
+    plt.tick_params(axis='x', which = 'minor', grid_alpha=0.5)
     plt.suptitle("Part de la consommation française de cuivre couverte par le recyclage")
 
     plt.legend()
-    plt.xlabel('Temps en années')
+    plt.xlabel('Années')
     plt.ylabel('Pourcentage de la consommation totale en cuivre')
     plt.subplots_adjust(left=0.12, right=0.96, top = 0.92)
     plt.ylim(bottom=0, top=1)
