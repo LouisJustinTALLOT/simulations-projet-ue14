@@ -183,7 +183,7 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
         plt.plot(annees, res,label='recyclé '+ dico_label[sup_r]+' '+'consommé '+ dico_label[sup_c])
         ax.fill_between(annees, res,alpha=0.5)
 
-    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1))
+    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(1)) # on formate les nombres en pourcentages
 
     plt.suptitle("Simulation numérique de la consommation et du recyclage annuel en cuivre")
 
