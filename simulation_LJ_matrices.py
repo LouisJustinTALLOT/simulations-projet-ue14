@@ -180,7 +180,7 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
         # plt.plot(annees, np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c), label=str(i))
         recycl = np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)
         consom = np.vectorize(conso_totale)(annees, sup_r, sup_c)
-        res = (consom-recycl)/consom
+            res = 1 -( (consom-recycl)/consom)
 
             plt.plot(annees, res,label=dico_labels[i], linewidth=2)
             ax.fill_between(annees, res,alpha=0.1)
