@@ -159,8 +159,8 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
     fig,ax = plt.subplots()
     sup_c = sup_r = True
     dico_label = {True : 'pire', False : 'meilleur'}
-
-    for i in range(4):
+    for i, valeur in enumerate(possibilités):
+        if i == 0 or i == 3:
         sup_r, sup_c = possibilités[i]
     
         global dico_c
