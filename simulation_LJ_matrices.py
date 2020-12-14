@@ -163,23 +163,23 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
                    3 : "Consommation limitée, recyclage important"}
     for i, valeur in enumerate(possibilités):
         if i == 0 or i == 3:
-        sup_r, sup_c = possibilités[i]
-    
-        global dico_c
-        global dico_r
-        global dico_s
-        dico_c = {}
-        dico_s = {}
-        dico_r = {}
-        dico_c[ANNEE_DEBUT] = np.array([200_000, 200_000,       20_000,2_500]).reshape((-1,1))
-        dico_s[ANNEE_DEBUT] = np.array([1_000_000, 20_000_000,  225_000,10_000]).reshape((-1,1))
+            sup_r, sup_c = possibilités[i]
 
-        # plt.plot(annees,np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c), label='recyclé '+ dico_label[sup_r]+' '+ str(i))
-        # if i < 2:
-        #     plt.plot(annees,np.vectorize(conso_totale)(annees, sup_r, sup_c), label = 'consommé '+ dico_label[sup_c] )
-        # plt.plot(annees, np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c), label=str(i))
-        recycl = np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)
-        consom = np.vectorize(conso_totale)(annees, sup_r, sup_c)
+            global dico_c
+            global dico_r
+            global dico_s
+            dico_c = {}
+            dico_s = {}
+            dico_r = {}
+            dico_c[ANNEE_DEBUT] = np.array([200_000, 200_000,       20_000,2_500]).reshape((-1,1))
+            dico_s[ANNEE_DEBUT] = np.array([1_000_000, 20_000_000,  225_000,10_000]).reshape((-1,1))
+
+            # plt.plot(annees,np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c), label='recyclé '+ dico_label[sup_r]+' '+ str(i))
+            # if i < 2:
+            #     plt.plot(annees,np.vectorize(conso_totale)(annees, sup_r, sup_c), label = 'consommé '+ dico_label[sup_c] )
+            # plt.plot(annees, np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)-np.vectorize(conso_totale)(annees, sup_r, sup_c), label=str(i))
+            recycl = np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)
+            consom = np.vectorize(conso_totale)(annees, sup_r, sup_c)
             res = 1 -( (consom-recycl)/consom)
 
             plt.plot(annees, res,label=dico_labels[i], linewidth=2)
