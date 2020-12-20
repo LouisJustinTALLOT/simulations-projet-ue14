@@ -37,7 +37,7 @@ ANNEE_FIN = 2050
                 0         1                   2                          3 
         cat = Véhicules Batiments Equipements_electroménagers Appareils_électroniques
 """
-SS_0 = np.diag([0.1,     0.005,            0.1,                        0.3])
+SS_0 = np.diag([0.1,     0.006,            0.1,                        0.3])
 TP_0 = np.diag([...])
 PR_0 = np.diag([0.9,       0.8,              0.5,                        0.2])
 RR_0 = np.diag([0.95,     0.95,             0.9,                        0.5])      
@@ -77,7 +77,7 @@ def SS(n, sup_r = False, sup_c = False):
     #         return  np.diag([0.05,0.005,0.05,0.1]) + (25-(n-ANNEE_DEBUT))/25*np.diag([0.05,0,0.05,0.2])
 
     #     return np.diag([0.05,0.005,0.05,0.1])
-    return np.diag([0.1,0.005,0.1,0.3])
+    return SS_0
 
 def TP(n):
     """en premier modèle, c'est une fonction constante : 
@@ -90,8 +90,8 @@ def PR(n, sup_r = False, sup_c = False):
     en deuxième modèle, on évolue de façon affine vers une bien meilleure portion de recyclage
     """
     if not sup_r :
-        if n-ANNEE_DEBUT <= 15:
-            return  np.diag([0.99,0.98,0.95,0.9]) + (15-(n-ANNEE_DEBUT))/15*np.diag([-0.09,-0.18,-0.45,-0.7])
+        if n-ANNEE_DEBUT <= 20:
+            return  np.diag([0.99,0.98,0.95,0.9]) + (20-(n-ANNEE_DEBUT))/20*np.diag([-0.09,-0.18,-0.45,-0.7])
         
         return   np.diag([0.99,     0.98,             0.95,                        0.9])
     return np.diag([0.9, 0.8, 0.5, 0.2])
@@ -165,7 +165,7 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
     sup_c = sup_r = True
     dico_label = {True : 'pire', False : 'meilleur'}
     dico_labels = {0 : "Consommation non raisonnée, peu de recyclage, efficacité limitée",
-                   3 : "Consommation limitée, recyclage important et efficace"}
+                   3 : "Consommation limitée, recyclage efficace qui prend de l'ampleur"}
     for i, valeur in enumerate(possibilités):
         if i == 0 or i == 3:
             sup_r, sup_c = possibilités[i]
@@ -186,6 +186,10 @@ def simulation(annee_fin = ANNEE_FIN, sup_r = False, sup_c = False):
             recycl = np.vectorize(obtenu_recyclage)(annees, sup_r, sup_c)
             consom = np.vectorize(conso_totale)(annees, sup_r, sup_c)
             res = 1 -( (consom-recycl)/consom)
+
+            # plt.plot(annees, consom,label=dico_labels[i], linewidth=2)
+            # plt.plot(annees, recycl, label=dico_labels[i], linewidth=2)
+            # plt.figure()
 
             plt.plot(annees, res,label=dico_labels[i], linewidth=2)
             ax.fill_between(annees, res,alpha=0.07)
